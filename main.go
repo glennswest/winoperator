@@ -1,62 +1,41 @@
-package main;
+package WinOperator
 
 import (
-	"fmt"
-        "log"
-        "net/http"
-        "time"
-        "k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
-	"k8s.io/client-go/tools/cache"
-        )
+    "log"
+    "os"
 
+    "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/client-go/informers"
+    "k8s.io/client-go/kubernetes"
+    "k8s.io/client-go/tools/cache"
+    "k8s.io/client-go/tools/clientcmd"
+)
 
 func main() {
-    //Configure cluster info
-    config, err := rest.InClusterConfig()
+    kubeconfig := os.Getenv("KUBECONFIG")
+    config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
     if err != nil {
-	panic(err.Error())
-	}
-
-    //Create a new client to interact with cluster and freak if it doesn't work
-    kubeClient, err := kubernetes.NewForConfig(config)
-    if err != nil {
-        log.Fatalln("Client not created sucessfully:", err)
+        panic(err.Error())
     }
-    //Create a cache to store nodes
-    var nodeStore cache.Store
-    //Watch for Nodes
-    nodeStore = watchNodes(kubeClient, nodeStore)
-    //Keep alive
-    log.Fatal(http.ListenAndServe(":8080", nil))
-}
 
-func watchNodes(client *client.Client, store cache.Store) cache.Store {
-    //Define what we want to look for (Nodes)
-    watchlist := cache.NewListWatchFromClient(client, "Nodes", api.NamespaceAll, fields.Everything())
-    resyncPeriod := 30 * time.Minute
-    //Setup an informer to call functions when the watchlist changes
-    eStore, eController := framework.NewInformer(
-        watchlist,
-        &api.Pod{},
-        resyncPeriod,
-        framework.ResourceEventHandlerFuncs{
-            AddFunc:    nodeCreated,
-            DeleteFunc: nodeDeleted,
+    clientset, err := kubernetes.NewForConfig(config)
+    if err != nil {
+        panic(err.Error())
+    }
+
+    factory := informers.NewSharedInformerFactory(clientset, 0)
+    informer := factory.Core().V1().Pods().Informer()
+    stopper := make(chan struct{})
+    defer close(stopper)
+    informer.AddEventHandler(cache.ResourceEventHandlerFuncs{
+        AddFunc: func(obj interface{}) {
+            // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
+            // interface that allows us to get metadata easily
+            mObj := obj.(v1.Object)
+            log.Printf("New Pod Added to Store: %s", mObj.GetName())
         },
-    )
-    //Run the controller as a goroutine
-    go eController.Run(wait.NeverStop)
-    return eStore
-}
+    })
 
-func nodeCreated(obj interface{}) {
-    node := obj.(*api.Node)
-    fmt.Println("Node created: " + node.ObjectMeta.Name)
-}
-
-func nodeDeleted(obj interface{}) {
-    node := obj.(*api.Node)
-    fmt.Println("Node deleted: " + node.ObjectMeta.Name)
+    informer.Run(stopper)
 }
 
