@@ -1,4 +1,5 @@
-FROM centos7
-COPY ./app /app
-ENTRYPOINT /app
+FROM scratch
+ADD ca-certificates.crt /etc/ssl/certs/
+ADD main /
+CMD ["/main"]
 

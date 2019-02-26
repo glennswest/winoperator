@@ -24,7 +24,7 @@ func main() {
     }
 
     factory := informers.NewSharedInformerFactory(clientset, 0)
-    informer := factory.Core().V1().Pods().Informer()
+    informer := factory.Core().V1().Nodes().Informer()
     stopper := make(chan struct{})
     defer close(stopper)
     informer.AddEventHandler(cache.ResourceEventHandlerFuncs{
@@ -32,7 +32,7 @@ func main() {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            log.Printf("New Pod Added to Store: %s", mObj.GetName())
+            log.Printf("New Node Added to Store: %s", mObj.GetName())
         },
     })
 
