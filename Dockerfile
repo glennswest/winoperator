@@ -1,4 +1,4 @@
-FROM registry.svc.ci.openshift.org/openshift/release:golang-1.10 AS builder
+FROM registry.svc.ci.openshift.org/openshift/release:golang-1.10 
 WORKDIR /go/src/github.com/glennswest/winoperator
 COPY . .
 RUN WHAT=winoperator ./hack/build-go.sh
