@@ -12,16 +12,20 @@ import (
 )
 
 func main() {
+    fmt.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
+        fmt.Printf("Failled: BuildConfigFromFlags\n");
         panic(err.Error())
     }
 
     clientset, err := kubernetes.NewForConfig(config)
     if err != nil {
+        fmt.Printf("Failed: NewForConfig\n")
         panic(err.Error())
     }
 
+    fmt.Printf("Setting up Informer")
     factory := informers.NewSharedInformerFactory(clientset, 0)
     informer := factory.Core().V1().Nodes().Informer()
     stopper := make(chan struct{})

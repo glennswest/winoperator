@@ -7,4 +7,4 @@ sleep 3
 oc create clusterrolebinding default-view --clusterrole=view --serviceaccount=default:default
 #oc adm policy add-role-to-user admin system:serviceaccount:winoperator 
 oc new-app docker.io/glennswest/winoperator:latest
-
+oc set volume dc/winoperator --add --name=logs --mount-path=/tmp --path=/data/winoperator
