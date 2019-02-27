@@ -33,5 +33,6 @@ mkdir -p ${BIN_PATH}
 CGO_ENABLED=0
 
 echo "Building ${REPO}/${WHAT} (${VERSION_OVERRIDE})"
+echo CGO_ENABLED=${CGO_ENABLED} GOOS=${GOOS} GOARCH=${GOARCH} go build ${GOFLAGS} -ldflags "${GLDFLAGS} -s -w" -o ${BIN_PATH}/${WHAT} ${WHAT}
 CGO_ENABLED=${CGO_ENABLED} GOOS=${GOOS} GOARCH=${GOARCH} go build ${GOFLAGS} -ldflags "${GLDFLAGS} -s -w" -o ${BIN_PATH}/${WHAT} ${WHAT}
 
