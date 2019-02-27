@@ -1,2 +1,2 @@
 #eval $(minishift docker-env)
-docker build -t glennswest/winoperator .
+docker build --no-cache -t glennswest/winoperator .
