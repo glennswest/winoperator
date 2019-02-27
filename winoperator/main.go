@@ -1,4 +1,4 @@
-package WinOperator
+package main
 
 import (
     "log"
