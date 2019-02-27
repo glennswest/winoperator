@@ -1,7 +1,8 @@
 package main
 
 import (
-    "log"
+    //"log"
+    "fmt"
 
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
