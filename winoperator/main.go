@@ -3,7 +3,7 @@ package WinOperator
 import (
     "log"
     "os"
-
+    "strings"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
