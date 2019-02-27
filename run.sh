@@ -1,4 +1,10 @@
 oc delete dc winoperator
-sleep 5
-oc run --rm -i winoperator --image=docker.io/glennswest/winoperator:0.2 
+oc delete is winoperator
+oc delete rc winoperator
+oc delete sa winoperator
+sleep 3
+#oc create sa winoperator
+oc create clusterrolebinding default-view --clusterrole=view --serviceaccount=default:default
+#oc adm policy add-role-to-user admin system:serviceaccount:winoperator 
+oc new-app docker.io/glennswest/winoperator:latest
 
