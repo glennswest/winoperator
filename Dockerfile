@@ -1,8 +1,10 @@
-FROM registry.svc.ci.openshift.org/openshift/release:golang-1.10 
-RUN git clone https://github.com/glennswest/winoperator /go/src/github.com/glennswest/winoperator
+FROM registry.svc.ci.openshift.org/openshift/release:golang-1.10 as builder
+RUN go get github.com/glennswest/winoperator/winoperator
 WORKDIR /go/src/github.com/glennswest/winoperator/winoperator
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build 
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-extldflags "-static"' .
+RUN ls -l ..
 
-FROM registry.svc.ci.openshift.org/openshift/origin-v4.0:base
-COPY --from=0 /go/src/github.com/glennswest/winoperator/winoperator /usr/bin/winoperator
-ENTRYPOINT ["/usr/bin/winoperator"]
+FROM scratch
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/glennswest/winoperator/winoperator/winoperator /root/winoperator
+ENTRYPOINT ["/root/winoperator"]
