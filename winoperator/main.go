@@ -12,7 +12,8 @@ import (
 
 func main() {
     kubeconfig := os.Getenv("KUBECONFIG")
-    config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+    #config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+    config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
         panic(err.Error())
     }
