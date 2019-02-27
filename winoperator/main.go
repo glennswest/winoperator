@@ -2,7 +2,6 @@ package main
 
 import (
     "log"
-    "os"
 
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
@@ -31,7 +30,7 @@ func main() {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            log.Printf("New Node Added to Store: %s", mObj.GetName())
+            fmt.Printf("New Node Added to Store: %s", mObj.GetName())
         },
     })
 
