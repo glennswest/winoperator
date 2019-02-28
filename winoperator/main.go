@@ -1,7 +1,7 @@
 package main
 
 import (
-    "log"
+    log "github.com/sirupsen/logrus"
     "os"
     "fmt"
 
@@ -11,10 +11,6 @@ import (
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
 )
-
-func init() {
-    log.SetOutput(os.Stderr)
-}
 
 func main() {
     
