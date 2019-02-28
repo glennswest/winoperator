@@ -1,7 +1,7 @@
 export GIT_COMMIT=$(git rev-parse --short HEAD)
 rm -r -f tmp
 mkdir tmp
-echo $GIT_COMMIT > ./tmp/commit.id
+echo $GIT_COMMIT > tmp/commit.id
 chmod -R 777 ./tmp
 #eval $(minishift docker-env)
 docker build --no-cache -t glennswest/winoperator:$GIT_COMMIT .
