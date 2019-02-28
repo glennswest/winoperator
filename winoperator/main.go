@@ -1,7 +1,8 @@
 package main
 
 import (
-    //"log"
+    "log"
+    "os"
     "fmt"
 
     "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -11,7 +12,12 @@ import (
     "k8s.io/client-go/tools/clientcmd"
 )
 
+func init() {
+    log.SetOutput(os.Stderr)
+}
+
 func main() {
+    
     fmt.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
