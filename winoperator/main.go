@@ -23,6 +23,13 @@ func init() {
 
   // Only log the warning severity or above.
   //log.SetLevel(log.TraceLevel)
+  logger := logrus.New()
+  logger.Formatter = &logrus.JSONFormatter{}
+
+  // Use logrus for standard log output
+  // Note that `log` here references stdlib's log
+  // Not logrus imported under the name `log`.
+  log.SetOutput(logger.Writer())
 }
 
 func main() {
