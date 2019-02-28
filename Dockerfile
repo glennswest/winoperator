@@ -7,5 +7,5 @@ FROM scratch
 WORKDIR /root/
 COPY --from=builder /go/src/github.com/glennswest/winoperator/winoperator/winoperator /root/winoperator
 COPY tmp /tmp
-COPY commit.id /tmp/commit.id
+COPY tmp/commit.id /tmp/commit.id
 ENTRYPOINT ["/root/winoperator"]
