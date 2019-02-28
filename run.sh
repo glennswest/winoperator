@@ -1,3 +1,4 @@
+export GIT_COMMIT=$(git rev-parse --short HEAD)
 oc delete dc winoperator
 oc delete is winoperator
 oc delete rc winoperator
@@ -6,4 +7,4 @@ sleep 3
 #oc create sa winoperator
 oc create clusterrolebinding default-view --clusterrole=view --serviceaccount=default:default
 #oc adm policy add-role-to-user admin system:serviceaccount:winoperator 
-oc new-app docker.io/glennswest/winoperator:latest
+oc new-app docker.io/glennswest/winoperator:$GIT_COMMIT
