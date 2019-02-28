@@ -7,4 +7,3 @@ chmod -R 777 ./tmp
 docker build --no-cache -t glennswest/winoperator:$GIT_COMMIT .
 docker tag glennswest/winoperator:$GIT_COMMIT  docker.io/glennswest/winoperator:$GIT_COMMIT
 docker push docker.io/glennswest/winoperator:$GIT_COMMIT
-rm commit.id
