@@ -1,8 +1,8 @@
 package main
 
 import (
-    log "github.com/Sirupsen/logrus"
-    "os"
+    log "github.com/sirupsen/logrus"
+    //"os"
     "fmt"
 
     "k8s.io/apimachinery/pkg/apis/meta/v1"
