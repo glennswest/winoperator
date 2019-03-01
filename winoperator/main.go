@@ -19,7 +19,7 @@ func get_node(c *kubernetes.Clientset, node_name string){
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
 
-     if (err == nil){
+     if (err != nil){
         log.Printf("Cannot get node info\n");
         return;
         }
