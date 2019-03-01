@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "flag"
-
+    "log"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -34,16 +34,17 @@ func init() {
 
 func main() {
     
-    fmt.Printf("Building config from flags\n")
+    log.SetOutput(os.Stdout)
+    log.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
-        fmt.Printf("Failled: BuildConfigFromFlags\n");
+        log.Printf("Failled: BuildConfigFromFlags\n");
         panic(err.Error())
     }
 
     clientset, err := kubernetes.NewForConfig(config)
     if err != nil {
-        fmt.Printf("Failed: NewForConfig\n")
+        log.Printf("Failed: NewForConfig\n")
         panic(err.Error())
     }
 
@@ -57,7 +58,7 @@ func main() {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            fmt.Printf("New Node Added to Store: %s", mObj.GetName())
+            log.Printf("New Node Added to Store: %s", mObj.GetName())
         },
     })
 
