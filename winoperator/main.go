@@ -58,7 +58,13 @@ func main() {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            log.Printf("New Node Added to Store: %s", mObj.GetName())
+            log.Printf("New Node Added to Store: %s\n", mObj.GetName())
+        },
+        DeleteFunc: func(obj interface{}) {
+            // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
+            // interface that allows us to get metadata easily
+            mObj := obj.(v1.Object)
+            log.Printf("Node Delete from Store: %s\n", mObj.GetName())
         },
     })
 
