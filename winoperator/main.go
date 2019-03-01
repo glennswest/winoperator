@@ -1,9 +1,10 @@
 package main
 
 import (
-    log "github.com/sirupsen/logrus"
+  //  log "github.com/sirupsen/logrus"
     //"os"
     "fmt"
+    "flag"
 
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
@@ -13,8 +14,9 @@ import (
 )
 
 func init() {
+  flag.Parse();
   // Log as JSON instead of the default ASCII formatter.
-  log.SetFormatter(&log.JSONFormatter{})
+  //log.SetFormatter(&log.JSONFormatter{})
   //log.SetFormatter(&log.TextFormatter{})
 
   // Output to stdout instead of the default stderr
@@ -23,13 +25,13 @@ func init() {
 
   // Only log the warning severity or above.
   //log.SetLevel(log.TraceLevel)
-  logger := logrus.New()
-  logger.Formatter = &logrus.JSONFormatter{}
+  //logger := logrus.New()
+  //logger.Formatter = &logrus.JSONFormatter{}
 
   // Use logrus for standard log output
   // Note that `log` here references stdlib's log
   // Not logrus imported under the name `log`.
-  log.SetOutput(logger.Writer())
+  //log.SetOutput(logger.Writer())
 }
 
 func main() {

@@ -8,4 +8,4 @@ WORKDIR /root/
 COPY --from=builder /go/src/github.com/glennswest/winoperator/winoperator/winoperator /root/winoperator
 COPY tmp /tmp
 COPY tmp/commit.id /tmp/commit.id
-ENTRYPOINT ["/root/winoperator"]
+ENTRYPOINT ["/root/winoperator -logtostderr=true"]
