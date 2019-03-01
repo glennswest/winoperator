@@ -4,6 +4,7 @@ import (
     "fmt"
     "flag"
     "log"
+    "os"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -33,7 +34,6 @@ func init() {
 }
 
 func main() {
-    
     log.SetOutput(os.Stdout)
     log.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
