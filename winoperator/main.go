@@ -4,6 +4,7 @@ import (
     "flag"
     "log"
     "os"
+    "reflect"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -26,6 +27,7 @@ func get_node(c *kubernetes.Clientset, node_name string){
      //log.Printf("Nodes = %d\n", nodes.Items);
      theos := nodes.Items[0].Labels["beta.kubernetes.io/os"];
      log.Printf("OS = %s\n",theos);
+     log.Printf("Type = %s\n",reflect.TypeOf(nodes.Items[0]))
 
 }
 
