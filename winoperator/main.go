@@ -1,7 +1,6 @@
 package main
 
 import (
-    "fmt"
     "flag"
     "log"
     "os"
@@ -14,24 +13,28 @@ import (
 
 func init() {
   flag.Parse();
-  // Log as JSON instead of the default ASCII formatter.
-  //log.SetFormatter(&log.JSONFormatter{})
-  //log.SetFormatter(&log.TextFormatter{})
-
-  // Output to stdout instead of the default stderr
-  // Can be any io.Writer, see below for File example
-  //log.SetOutput(os.Stdout)
-
-  // Only log the warning severity or above.
-  //log.SetLevel(log.TraceLevel)
-  //logger := logrus.New()
-  //logger.Formatter = &logrus.JSONFormatter{}
-
-  // Use logrus for standard log output
-  // Note that `log` here references stdlib's log
-  // Not logrus imported under the name `log`.
-  //log.SetOutput(logger.Writer())
 }
+
+func get_node(c *kubernetes.Clientset, node_name string){
+     selector := "metadata.name=" + node_name;
+     nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
+
+     if (err == nil){
+        log.Printf("Cannot get node info\n");
+        return;
+        }
+     log.Printf("Nodes = %d\n", nodes.Items);
+
+
+}
+
+func add_node(c *kubernetes.Clientset, node_name string){
+     get_node(c,node_name);
+}
+
+func delete_node(c *kubernetes.Clientset,node_name string){
+}
+
 
 func main() {
     log.SetOutput(os.Stdout)
@@ -48,7 +51,7 @@ func main() {
         panic(err.Error())
     }
 
-    fmt.Printf("Setting up Informer")
+    log.Printf("Setting up Informer\n")
     factory := informers.NewSharedInformerFactory(clientset, 0)
     informer := factory.Core().V1().Nodes().Informer()
     stopper := make(chan struct{})
@@ -58,13 +61,17 @@ func main() {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            log.Printf("New Node Added to Store: %s\n", mObj.GetName())
+            nodename := mObj.GetName();
+            log.Printf("New Node Added to Store: %s\n", nodename)
+            add_node(clientset,nodename);
         },
         DeleteFunc: func(obj interface{}) {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
             // interface that allows us to get metadata easily
             mObj := obj.(v1.Object)
-            log.Printf("Node Delete from Store: %s\n", mObj.GetName())
+            nodename := mObj.GetName();
+            log.Printf("Node Delete from Store: %s\n", nodename)
+            delete_node(clientset,nodename);
         },
     })
 
