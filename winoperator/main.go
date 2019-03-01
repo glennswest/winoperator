@@ -23,8 +23,9 @@ func get_node(c *kubernetes.Clientset, node_name string){
         log.Printf("Cannot get node info\n");
         return;
         }
-     log.Printf("Nodes = %d\n", nodes.Items);
-
+     //log.Printf("Nodes = %d\n", nodes.Items);
+     theos := nodes.Items[0].Labels["beta.kubernetes.io/os"];
+     log.Printf("OS = %s\n",theos);
 
 }
 
