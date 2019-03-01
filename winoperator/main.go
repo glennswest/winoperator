@@ -1,8 +1,6 @@
 package main
 
 import (
-  //  log "github.com/sirupsen/logrus"
-    //"os"
     "fmt"
     "flag"
 
