@@ -4,7 +4,6 @@ import (
     "flag"
     "log"
     "os"
-    "reflect"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -16,23 +15,22 @@ func init() {
   flag.Parse();
 }
 
-func get_node(c *kubernetes.Clientset, node_name string){
+func get_node_label(c *kubernetes.Clientset, node_name string,thename string) string {
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
 
      if (err != nil){
         log.Printf("Cannot get node info\n");
-        return;
+        return "";
         }
      //log.Printf("Nodes = %d\n", nodes.Items);
-     theos := nodes.Items[0].Labels["beta.kubernetes.io/os"];
-     log.Printf("OS = %s\n",theos);
-     log.Printf("Type = %s\n",reflect.TypeOf(nodes.Items[0]))
-
+    theresult := nodes.Items[0].Labels[thename];
+    return theresult
 }
 
 func add_node(c *kubernetes.Clientset, node_name string){
-     get_node(c,node_name);
+     theos := get_node_label(c,node_name,"beta.kubernetes.io/os");
+     log.Printf("OS = %s\n",theos);
 }
 
 func delete_node(c *kubernetes.Clientset,node_name string){
