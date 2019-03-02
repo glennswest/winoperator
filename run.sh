@@ -1,3 +1,4 @@
+git pull
 export GIT_COMMIT=$(git rev-parse --short HEAD)
 echo $GIT_COMMIT
 oc delete dc winoperator
