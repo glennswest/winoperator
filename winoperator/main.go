@@ -4,6 +4,7 @@ import (
     "flag"
     "log"
     "os"
+    "net"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -28,12 +29,41 @@ func get_node_label(c *kubernetes.Clientset, node_name string,thename string) st
     return theresult
 }
 
-func add_node(c *kubernetes.Clientset, node_name string){
-     theos := get_node_label(c,node_name,"beta.kubernetes.io/os");
-     log.Printf("OS = %s\n",theos);
+func ip_lookup(tip string) string{
+
+	ips, err := net.LookupIP("google.com")
+	if err != nil {
+		log.Printf("Could not get IPs: %v\n", err)
+		return("");
+	   }
+        theip := ""
+	for _, ip := range ips {
+		log.Printf("%s IN A %s\n", tip,ip.String())
+	    }
+        theip = ips[0].String();
+        return(theip);
 }
 
-func delete_node(c *kubernetes.Clientset,node_name string){
+func check_windows_node(c *kubernetes.Clientset, node_name string){
+     host_name := get_node_label(c,node_name,"kubernetes.io/hostname")
+     log.Printf("hostname = %s\n",host_name);
+
+}
+
+func kube_add_node(c *kubernetes.Clientset, node_name string){
+     theos := get_node_label(c,node_name,"beta.kubernetes.io/os");
+     switch(theos){
+         case "linux":
+         // Ignore Linux Nodes for now
+         case "windows":
+               check_windows_node(c,node_name);
+         default:
+               log.Printf("Undefined OS: %s (Ignored)\n",theos)
+         }
+              
+}
+
+func kube_delete_node(c *kubernetes.Clientset,node_name string){
 }
 
 
@@ -64,7 +94,7 @@ func main() {
             mObj := obj.(v1.Object)
             nodename := mObj.GetName();
             log.Printf("New Node Added to Store: %s\n", nodename)
-            add_node(clientset,nodename);
+            kube_add_node(clientset,nodename);
         },
         DeleteFunc: func(obj interface{}) {
             // "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
@@ -72,7 +102,7 @@ func main() {
             mObj := obj.(v1.Object)
             nodename := mObj.GetName();
             log.Printf("Node Delete from Store: %s\n", nodename)
-            delete_node(clientset,nodename);
+            kube_delete_node(clientset,nodename);
         },
     })
 
