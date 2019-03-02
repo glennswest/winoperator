@@ -47,6 +47,8 @@ func ip_lookup(tip string) string{
 func check_windows_node(c *kubernetes.Clientset, node_name string){
      host_name := get_node_label(c,node_name,"kubernetes.io/hostname")
      log.Printf("hostname = %s\n",host_name);
+     theip := ip_lookup(host_name);
+     log.Printf("ip = %s\n",theip);
 
 }
 
