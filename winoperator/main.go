@@ -53,7 +53,7 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
 func kube_add_node(c *kubernetes.Clientset, node_name string){
      theos := get_node_label(c,node_name,"beta.kubernetes.io/os");
      log.Printf("OS = %s\n",theos)
-     switch(theos){
+     switch theos {
          case "linux":
          // Ignore Linux Nodes for now
          case "windows":
