@@ -31,7 +31,7 @@ func get_node_label(c *kubernetes.Clientset, node_name string,thename string) st
 
 func ip_lookup(tip string) string{
 
-	ips, err := net.LookupIP("google.com")
+	ips, err := net.LookupIP(tip)
 	if err != nil {
 		log.Printf("Could not get IPs: %v\n", err)
 		return("");
