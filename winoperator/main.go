@@ -38,9 +38,9 @@ func ip_lookup(tip string) string{
 	   }
         theip := ""
 	for _, ip := range ips {
-		log.Printf("%s IN A %s\n", tip,ip.String())
+		log.Printf("%s IN A %s\n", tip,ip)
 	    }
-        theip = ips[0].String();
+        theip = ips[0];
         return(theip);
 }
 
