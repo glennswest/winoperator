@@ -1,0 +1,13 @@
+               apiVersion: v1
+               kind: Node
+               metadata:
+                   annotations:
+                     host/ip: 10.19.114.63
+                   labels:
+                     beta.kubernetes.io/arch: amd64
+                     beta.kubernetes.io/os: windows
+                     kubernetes.io/hostname: winnode01
+                   name: winnode01
+                   selfLink: /api/v1/nodes/winnode01
+               spec: {}
+
