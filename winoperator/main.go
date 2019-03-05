@@ -92,6 +92,7 @@ func kube_delete_node(c *kubernetes.Clientset,node_name string){
 
 func main() {
     log.SetOutput(os.Stdout)
+    log.Printf("Version .001a\n")
     log.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
