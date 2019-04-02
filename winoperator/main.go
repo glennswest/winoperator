@@ -10,10 +10,35 @@ import (
     "k8s.io/client-go/kubernetes"
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
+    //"github.com/tidwall/gjson"
+    "time"
 )
 
 func init() {
   flag.Parse();
+}
+
+func set_global_variable(vname string, value string){
+
+
+}
+
+func get_pod_ip(c *kubernetes.Clientset, podname string) string {
+	pods, err := c.Core().Pods(podname).List(v1.ListOptions{})
+	if err != nil {
+	  // handle error
+          return ""
+          }
+        for _, pod := range pods.Items {
+	   log.Printf("Pod %s - Ip %s\n",pod.Name, pod.Status.PodIP)
+           }
+         pod := pods.Items[0]
+         return(pod.Status.PodIP)
+}
+
+func update_global_variables(c *kubernetes.Clientset){
+	
+
 }
 
 func get_node_label(c *kubernetes.Clientset, node_name string,thename string) string {
@@ -97,7 +122,7 @@ func main() {
     log.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
     if err != nil {
-        log.Printf("Failled: BuildConfigFromFlags\n");
+        log.Printf("Failed: BuildConfigFromFlags\n");
         panic(err.Error())
     }
 
@@ -106,6 +131,16 @@ func main() {
         log.Printf("Failed: NewForConfig\n")
         panic(err.Error())
     }
+
+    winmachineman_ip := ""
+    for winmachineman_ip == "" {
+       log.Printf("Waiting on Windows Machine Manager")
+       winmachineman_ip := get_pod_ip(clientset,"winmachineman")
+       if (winmachineman_ip == ""){
+          time.Sleep(10 * time.Second)
+          }
+       }
+    log.Printf("Windows Machine Man found at ip %s\n",winmachineman_ip)
 
     log.Printf("Setting up Informer\n")
     factory := informers.NewSharedInformerFactory(clientset, 0)
