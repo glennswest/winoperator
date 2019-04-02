@@ -24,9 +24,12 @@ func set_global_variable(vname string, value string){
 }
 
 func get_pod_ip(c *kubernetes.Clientset, podname string) string {
+        log.Printf("Getting Pod Ip: %s\n",podname)
+        
 	pods, err := c.Core().Pods(podname).List(v1.ListOptions{})
 	if err != nil {
 	  // handle error
+          log.Printf("get_pod_ip: Error  %v\n",err)
           return ""
           }
         for _, pod := range pods.Items {
