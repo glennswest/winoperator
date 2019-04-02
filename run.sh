@@ -8,9 +8,9 @@ oc delete project winoperator
 sleep 3
 oc new-project winoperator
 oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT --confirm
-#oc create sa winoperator
-#oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
-#oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
 oc delete  istag/winoperator:latest
+#oc create sa winoperator
 oc new-app glennswest/winoperator:$GIT_COMMIT --token=$(oc sa get-token winoperator) 
+oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
+oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
 
