@@ -138,7 +138,8 @@ func main() {
     winmachineman_ip := ""
     for winmachineman_ip == "" {
        log.Printf("Waiting on Windows Machine Manager")
-       winmachineman_ip := get_pod_ip(clientset,"winmachineman")
+       winmachineman_ip = get_pod_ip(clientset,"winmachineman")
+       log.Printf("IP = %s\n",winmachineman_ip)
        if (winmachineman_ip == ""){
           time.Sleep(10 * time.Second)
           }
