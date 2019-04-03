@@ -15,6 +15,12 @@ import (
     "time"
 )
 
+function escjvar(v string) string{
+     v := strings(v,":",'\:', -1)
+     v = strings(v,".",'\.', -1)
+     return(v)
+}
+
 func init() {
   flag.Parse();
 }
@@ -74,7 +80,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
         }
      for index, element := range nodes.Items[0].Labels {
          log.Printf("%s -> %s", index,element);
-         d, _ = sjson.Set(d,"label." + index, element)
+         d, _ = sjson.Set(d,"label." + escjvar(index), escjvar(element))
          }
     //theresult := nodes.Items[0].Labels[thename];
     return d
