@@ -73,7 +73,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
         return d;
         }
      for _, i := range nodes.Items[0].Labels {
-         log.Printf("labels = %d\n", i);
+         log.Printf("labels = %+v\n", i);
          }
     //theresult := nodes.Items[0].Labels[thename];
     return d
