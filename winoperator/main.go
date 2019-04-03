@@ -39,7 +39,10 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
          return(pod.Status.PodIP)
 }
 
-func update_global_variables(c *kubernetes.Clientset){
+func update_variables(c *kubernetes.Clientset,variables){
+     value, _ := sjson.Set(variables,"global.version","v0.001")
+     value, _ := sjson.Set(value,"global.winoperator.ip",
+   
 	
 
 }
