@@ -72,8 +72,9 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
         log.Printf("Cannot get node info\n")
         return d;
         }
-     for _, i := range nodes.Items[0].Labels {
-         log.Printf("labels = %+v\n", i);
+     for index, element := range nodes.Items[0].Labels {
+         log.Printf("%s -> %s", index,element);
+         d, _ = sjson.Set(d,"label." + index, element)
          }
     //theresult := nodes.Items[0].Labels[thename];
     return d
