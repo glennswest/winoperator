@@ -17,8 +17,8 @@ import (
 )
 
 func escjvar(v string) string{
-     v := strings(v,":",'\:', -1)
-     v = strings(v,".",'\.', -1)
+     v = strings.Replace(v,":","\\:", -1)
+     v = strings.Replace(v,".","\\.", -1)
      return(v)
 }
 
