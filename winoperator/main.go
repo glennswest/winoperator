@@ -73,6 +73,21 @@ func get_node_annotation(c *kubernetes.Clientset, node_name string,thename strin
     return theresult
 }
 
+func build_variables(c *kubernetes.Clientset, node_name string){
+     d := "{}"
+     selector := "metadata.name=" + node_name;
+     nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
+
+     if (err != nil){
+        log.Printf("Cannot get node info\n");
+        return "";
+        }
+     for _, i := range node.Items[0].Labels
+         log.Printf("labels = %d\n", nodes.Items);
+         }
+    //theresult := nodes.Items[0].Labels[thename];
+    return d
+}
 
 func ip_lookup(tip string) string{
 
@@ -101,6 +116,8 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
         log.Printf("ip = %s\n",theip);
         }
      log.Printf("Host IP: %s\n",theip);
+     v := build_variables(c,node_name)
+     log.Printf("Variables =%s\n",v)
 
 }
 
