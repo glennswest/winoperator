@@ -18,11 +18,6 @@ func init() {
   flag.Parse();
 }
 
-func set_global_variable(vname string, value string){
-
-
-}
-
 func get_pod_ip(c *kubernetes.Clientset, podname string) string {
         log.Printf("Getting Pod Ip: %s\n",podname)
         
@@ -39,13 +34,6 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
          return(pod.Status.PodIP)
 }
 
-func update_variables(c *kubernetes.Clientset,variables){
-     value, _ := sjson.Set(variables,"global.version","v0.001")
-     value, _ := sjson.Set(value,"global.winoperator.ip",
-   
-	
-
-}
 
 func get_node_label(c *kubernetes.Clientset, node_name string,thename string) string {
      selector := "metadata.name=" + node_name;
@@ -75,6 +63,7 @@ func get_node_annotation(c *kubernetes.Clientset, node_name string,thename strin
 
 func build_variables(c *kubernetes.Clientset, node_name string){
      d := "{}"
+     d, _ = sjson.Set(d,"global.version","v0.001")
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
 
