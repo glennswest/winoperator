@@ -11,6 +11,7 @@ import (
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
     //"github.com/tidwall/gjson"
+    "github.com/tidwall/sjson"
     "time"
 )
 
@@ -61,18 +62,18 @@ func get_node_annotation(c *kubernetes.Clientset, node_name string,thename strin
     return theresult
 }
 
-func build_variables(c *kubernetes.Clientset, node_name string){
+func build_variables(c *kubernetes.Clientset, node_name string) string {
      d := "{}"
      d, _ = sjson.Set(d,"global.version","v0.001")
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
 
      if (err != nil){
-        log.Printf("Cannot get node info\n");
-        return "";
+        log.Printf("Cannot get node info\n")
+        return d;
         }
-     for _, i := range node.Items[0].Labels
-         log.Printf("labels = %d\n", nodes.Items);
+     for _, i := range nodes.Items[0].Labels {
+         log.Printf("labels = %d\n", i);
          }
     //theresult := nodes.Items[0].Labels[thename];
     return d
