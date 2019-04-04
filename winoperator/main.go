@@ -14,13 +14,52 @@ import (
     "github.com/tidwall/sjson"
     "time"
     "strings"
+    "github.com/akrylysov/pogreb"
 )
 
-func escjvar(v string) string{
-     v = strings.Replace(v,":","\\:", -1)
-     v = strings.Replace(v,".","\\.", -1)
-     return(v)
+var DB *pogreb.DB
+
+func GetDbValue(k string) string{
+     val, err := DB.Get([]byte(k))
+     if err != nil {
+       log.Fatal(err)
+       return ""
+       }
+     return string(val)
 }
+func SetDbValue(k string,v string){
+     err := DB.Put([]byte(k),[]byte(v))
+     if err != nil{
+      log.Fatal(err)
+      }
+     return
+}
+
+
+func InitDb(){
+     SetDbValue(DB,".dbversion","1.0")
+     SetDbValue(DB,"Global.User","Administrator")
+     SetDbValue(DB,"Global.Password","SuperLamb931")
+     SetDbValue(DB,"ocp.version","3.11")
+}
+func SetupDb() {
+    DB, err := pogreb.Open("/data/winoperator", nil)
+    if err != nil {
+        log.Fatal(err)
+        return nil
+    }
+    defer DB.Close()
+    dbVersion := GetDbValue(".dbversion")
+    switch(dbVersion){
+        case "":
+             log.Printf("Setup Database")
+             InitDb()
+        default:
+             log.Printf("Usinging Exisiting Database")
+        }
+}
+
+
 
 func init() {
   flag.Parse();
@@ -93,6 +132,15 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
          log.Printf("%s -> %s", index,element);
          d = ArAdd(d,"annotations",index,element)
          }
+    node_user := GetDbValue(Db,node_name + ".UserName"
+    if (node_user == ""){
+       node_user := GetDbValue(Db,"Global.User")
+       node_password := GetDbValue(Db,"Global.Password")
+      } else {
+       node_password := GetDbValue(Db,node_name + ".UserPassword")
+      }
+    d = ArAdd(d,"settings","user",node_user)
+    d = ArAdd(d,"settings","password",node_password)
     log.Printf("d = %s\n", d);
     return d
 }
@@ -162,6 +210,7 @@ func main() {
         log.Printf("Failed: NewForConfig\n")
         panic(err.Error())
     }
+    SetupDb()
 
     winmachineman_ip := ""
     for winmachineman_ip == "" {
