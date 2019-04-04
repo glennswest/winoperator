@@ -7,6 +7,7 @@ oc delete sa winoperator
 oc delete project winoperator
 sleep 3
 oc new-project winoperator
+oc set volume dc/winoperator --add --name=dbdata --type=hostPath --path=/etc/winoperator --mount-path=/data
 oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT --confirm
 oc delete  istag/winoperator:latest
 #oc create sa winoperator
