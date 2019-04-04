@@ -10,7 +10,7 @@ import (
     "k8s.io/client-go/kubernetes"
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
-    //"github.com/tidwall/gjson"
+    "github.com/tidwall/gjson"
     "github.com/tidwall/sjson"
     "time"
     "strings"
@@ -132,7 +132,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
          log.Printf("%s -> %s", index,element);
          d = ArAdd(d,"annotations",index,element)
          }
-    node_user := GetDbValue(Db,node_name + ".UserName"
+    node_user := GetDbValue(Db,node_name + ".UserName")
     if (node_user == ""){
        node_user := GetDbValue(Db,"Global.User")
        node_password := GetDbValue(Db,"Global.Password")
