@@ -17,6 +17,7 @@ import (
 )
 
 var DB *pogreb.DB
+var DBerr error
 
 // Exists reports whether the named file or directory exists.
 func Exists(name string) bool {
@@ -53,14 +54,15 @@ func InitDb(){
      SetDbValue("Global.Password","SuperLamb931")
      SetDbValue("ocp.version","3.11")
 }
+
 func SetupDb() {
-    _ = os.MkdirAll("/data", 0700)
+    _ = os.MkdirAll("data", 0700)
     dbexists := Exists("/data/winoperator")
 
-    DB, err := pogreb.Open("/data/winoperator", nil)
-    if err != nil {
-        log.Fatal(err)
-        return 
+    DB, DBerr = pogreb.Open("/data/winoperator", nil)
+    if DBerr != nil {
+        log.Fatal(DBerr)
+        return
     }
     defer DB.Close()
     if (dbexists == false){
