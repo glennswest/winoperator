@@ -11,7 +11,7 @@ import (
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
     //"github.com/tidwall/gjson"
-    //"github.com/tidwall/sjson"
+    "github.com/tidwall/sjson"
     "time"
     "strings"
     "github.com/akrylysov/pogreb"
@@ -46,7 +46,7 @@ func SetupDb() {
     DB, err := pogreb.Open("/data/winoperator", nil)
     if err != nil {
         log.Fatal(err)
-        return nil
+        return 
     }
     defer DB.Close()
     dbVersion := GetDbValue(".dbversion")
@@ -133,11 +133,12 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
          d = ArAdd(d,"annotations",index,element)
          }
     node_user := GetDbValue(node_name + ".UserName")
+    node_password := ""
     if (node_user == ""){
        node_user := GetDbValue("Global.User")
-       node_password := GetDbValue("Global.Password")
+       node_password = GetDbValue("Global.Password")
       } else {
-       node_password := GetDbValue(node_name + ".UserPassword")
+       node_password = GetDbValue(node_name + ".UserPassword")
       }
     d = ArAdd(d,"settings","user",node_user)
     d = ArAdd(d,"settings","password",node_password)
