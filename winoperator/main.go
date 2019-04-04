@@ -56,7 +56,7 @@ func InitDb(){
 }
 
 func SetupDb() {
-    _ = os.MkdirAll("data", 0700)
+    _ = os.MkdirAll("/data", 0700)
     dbexists := Exists("/data/winoperator")
 
     DB, DBerr = pogreb.Open("/data/winoperator", nil)

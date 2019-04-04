@@ -6,6 +6,7 @@ RUN  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -ldfla
 
 FROM scratch
 VOLUME /tmp
+VOLUME /data
 WORKDIR /root/
 COPY --from=builder /go/bin/winoperator /go/bin/winoperator
 COPY commit.id commit.id
