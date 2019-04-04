@@ -21,7 +21,7 @@ var DB *pogreb.DB
 func GetDbValue(k string) string{
      log.Printf("GetDbValue(%s)\n",k)
      key := []byte(k)
-     val, err := DB.Get(k)
+     val, err := DB.Get(key)
      if err != nil {
        log.Fatal(err)
        return ""
