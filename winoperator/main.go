@@ -69,9 +69,15 @@ func get_node_annotation(c *kubernetes.Clientset, node_name string,thename strin
     return theresult
 }
 
+func ArAdd(d string,aname string,v1 string,v2 string) string{
+      s := `{"` + v1 + `","` + v2 + `"}`
+      a := aname + ".-1"
+      d,_ = sjson.SetRaw(d,a,s)
+      return d
+      }
+
 func build_variables(c *kubernetes.Clientset, node_name string) string {
-     d := "{}"
-     d, _ = sjson.Set(d,"global.version","v0.001")
+     d := `{"version": 1, "labels": [], "annotations": []}`
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
 
@@ -81,9 +87,13 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
         }
      for index, element := range nodes.Items[0].Labels {
          log.Printf("%s -> %s", index,element);
-         d, _ = sjson.Set(d,"label." + escjvar(index), escjvar(element))
+         d = ArAdd(d,"labels",index,element)
          }
-    //theresult := nodes.Items[0].Labels[thename];
+     for index, element := range nodes.Items[0].Annotations {
+         log.Printf("%s -> %s", index,element);
+         d = ArAdd(d,"annotations",index,element)
+         }
+    log.Printf("d = %s\n", d);
     return d
 }
 
