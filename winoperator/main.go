@@ -13,9 +13,10 @@ import (
     //"github.com/tidwall/gjson"
     "github.com/tidwall/sjson"
     "time"
+    "strings"
 )
 
-function escjvar(v string) string{
+func escjvar(v string) string{
      v := strings(v,":",'\:', -1)
      v = strings(v,".",'\.', -1)
      return(v)
