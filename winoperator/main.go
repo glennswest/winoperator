@@ -134,7 +134,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     node_user := GetDbValue(node_name + ".UserName")
     node_password := ""
     if (node_user == ""){
-       node_user := GetDbValue("Global.User")
+       node_user = GetDbValue("Global.User")
        node_password = GetDbValue("Global.Password")
       } else {
        node_password = GetDbValue(node_name + ".UserPassword")
