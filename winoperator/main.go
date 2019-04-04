@@ -10,8 +10,8 @@ import (
     "k8s.io/client-go/kubernetes"
     "k8s.io/client-go/tools/cache"
     "k8s.io/client-go/tools/clientcmd"
-    "github.com/tidwall/gjson"
-    "github.com/tidwall/sjson"
+    //"github.com/tidwall/gjson"
+    //"github.com/tidwall/sjson"
     "time"
     "strings"
     "github.com/akrylysov/pogreb"
@@ -37,10 +37,10 @@ func SetDbValue(k string,v string){
 
 
 func InitDb(){
-     SetDbValue(DB,".dbversion","1.0")
-     SetDbValue(DB,"Global.User","Administrator")
-     SetDbValue(DB,"Global.Password","SuperLamb931")
-     SetDbValue(DB,"ocp.version","3.11")
+     SetDbValue(".dbversion","1.0")
+     SetDbValue("Global.User","Administrator")
+     SetDbValue("Global.Password","SuperLamb931")
+     SetDbValue("ocp.version","3.11")
 }
 func SetupDb() {
     DB, err := pogreb.Open("/data/winoperator", nil)
@@ -132,12 +132,12 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
          log.Printf("%s -> %s", index,element);
          d = ArAdd(d,"annotations",index,element)
          }
-    node_user := GetDbValue(Db,node_name + ".UserName")
+    node_user := GetDbValue(node_name + ".UserName")
     if (node_user == ""){
-       node_user := GetDbValue(Db,"Global.User")
-       node_password := GetDbValue(Db,"Global.Password")
+       node_user := GetDbValue("Global.User")
+       node_password := GetDbValue("Global.Password")
       } else {
-       node_password := GetDbValue(Db,node_name + ".UserPassword")
+       node_password := GetDbValue(node_name + ".UserPassword")
       }
     d = ArAdd(d,"settings","user",node_user)
     d = ArAdd(d,"settings","password",node_password)
