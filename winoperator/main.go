@@ -18,6 +18,16 @@ import (
 
 var DB *pogreb.DB
 
+// Exists reports whether the named file or directory exists.
+func Exists(name string) bool {
+    if _, err := os.Stat(name); err != nil {
+        if os.IsNotExist(err) {
+            return false
+        }
+    }
+    return true
+}
+
 func GetDbValue(k string) string{
      log.Printf("GetDbValue(%s)\n",k)
      key := []byte(k)
@@ -45,19 +55,19 @@ func InitDb(){
 }
 func SetupDb() {
     _ = os.MkdirAll("/data", 0700)
+    dbexists := Exists("/data/winoperator")
+
     DB, err := pogreb.Open("/data/winoperator", nil)
     if err != nil {
         log.Fatal(err)
         return 
     }
     defer DB.Close()
-    dbVersion := GetDbValue(".dbversion")
-    switch(dbVersion){
-        case "":
+    if (dbexists == false){
              log.Printf("Setup Database")
              InitDb()
-        default:
-             log.Printf("Usinging Exisiting Database")
+       } else {
+             log.Printf("Using Existing Database")
         }
 }
 
