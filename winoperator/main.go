@@ -44,7 +44,7 @@ func InitDb(){
      SetDbValue("ocp.version","3.11")
 }
 func SetupDb() {
-    _ = os.MkdirAll("/data/winoperator", 0700)
+    _ = os.MkdirAll("/data", 0700)
     DB, err := pogreb.Open("/data/winoperator", nil)
     if err != nil {
         log.Fatal(err)
