@@ -19,7 +19,9 @@ import (
 var DB *pogreb.DB
 
 func GetDbValue(k string) string{
-     val, err := DB.Get([]byte(k))
+     log.Printf("GetDbValue(%s)\n",k)
+     key := []byte(k)
+     val, err := DB.Get(k)
      if err != nil {
        log.Fatal(err)
        return ""
