@@ -146,7 +146,8 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
          log.Printf("%s -> %s", index,element);
          d = ArAdd(d,"annotations",index,element)
          }
-    node_user := GetDbValue(node_name + ".UserName")
+    nul := node_name + ".UserName"
+    node_user := GetDbValue(nul)
     node_password := ""
     if (node_user == ""){
        node_user = GetDbValue("Global.User")
