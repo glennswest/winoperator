@@ -5,6 +5,9 @@ import (
     "log"
     "os"
     "net"
+    "time"
+    "strings"
+    "errors"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
     "k8s.io/client-go/kubernetes"
@@ -12,12 +15,9 @@ import (
     "k8s.io/client-go/tools/clientcmd"
     //"github.com/tidwall/gjson"
     "github.com/tidwall/sjson"
-    "time"
-    "github.com/akrylysov/pogreb"
+    bolt "go.etcd.io/bbolt"
 )
 
-var DB *pogreb.DB
-var DBerr error
 
 // Exists reports whether the named file or directory exists.
 func Exists(name string) bool {
@@ -29,42 +29,62 @@ func Exists(name string) bool {
     return true
 }
 
-func GetDbValue(k string) string{
-     log.Printf("GetDbValue(%s)\n",k)
-     key := []byte(k)
-     val, err := DB.Get(key)
-     if err != nil {
-       log.Fatal(err)
-       return ""
-       }
-     return string(val)
+func GetBucketAndKey(k string) (string, string){
+     idx := strings.IndexByte(k,'.')
+     bucket := k[0:idx]
+     key := k[idx+1:]
+     return bucket,key
+}
+
+func GetDbValue(p string) string{
+     val := ""
+     log.Printf("GetDbValue(%s)\n",p)
+     b,k := GetBucketAndKey(p)
+     db, _ := bolt.Open("/data/winoperator", 0600,nil)
+     db.View(func(tx *bolt.Tx) error {
+              bucket := tx.Bucket([]byte(b))
+              if bucket == nil {
+                   log.Printf("No Bucket\n")
+                   return errors.New("No Key ")
+                   }
+
+        val = string(bucket.Get([]byte(k)))
+        return nil
+    })
+     log.Printf("External value = %s\n",val)
+     db.Close()
+     return val
 }
 func SetDbValue(k string,v string){
-     err := DB.Put([]byte(k),[]byte(v))
-     if err != nil{
-      log.Fatal(err)
-      }
+     log.Printf("SetDbValue(%s,%s)\n",k,v)
+     bucket,key := GetBucketAndKey(k)
+     db, _ := bolt.Open("/data/winoperator", 0600,nil)
+     db.Update(func(tx *bolt.Tx) error {
+           b, err := tx.CreateBucketIfNotExists([]byte(bucket))
+           if err != nil {
+              log.Printf("Err in create of bucket\n")
+              return err
+              }
+           log.Printf("Setting %s to %s\n",key,v)
+           b.Put([]byte(key),[]byte(v))
+           return(nil)
+           })
+     db.Close()
      return
 }
 
 
+
 func InitDb(){
-     SetDbValue(".dbversion","1.0")
-     SetDbValue("Global.User","Administrator")
-     SetDbValue("Global.Password","SuperLamb931")
-     SetDbValue("ocp.version","3.11")
+     SetDbValue("global.dbversion","1.0")
+     SetDbValue("global.User","Administrator")
+     SetDbValue("global.Password","SuperLamb931")
+     SetDbValue("global.ocpversion","3.11")
 }
 
 func SetupDb() {
     _ = os.MkdirAll("/data", 0700)
     dbexists := Exists("/data/winoperator")
-
-    DB, DBerr = pogreb.Open("/data/winoperator", nil)
-    if DBerr != nil {
-        log.Fatal(DBerr)
-        return
-    }
-    defer DB.Close()
     if (dbexists == false){
              log.Printf("Setup Database")
              InitDb()
