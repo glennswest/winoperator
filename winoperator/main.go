@@ -5,8 +5,10 @@ import (
     "log"
     "os"
     "net"
+    "net/http"
     "time"
     "strings"
+    "bytes"
     "errors"
     "k8s.io/apimachinery/pkg/apis/meta/v1"
     "k8s.io/client-go/informers"
@@ -17,6 +19,7 @@ import (
     "github.com/tidwall/sjson"
     bolt "go.etcd.io/bbolt"
 )
+
 
 
 // Exists reports whether the named file or directory exists.
@@ -211,7 +214,10 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
      log.Printf("Host IP: %s\n",theip);
      v := build_variables(c,node_name)
      log.Printf("Variables =%s\n",v)
-
+     winmachineman_ip := GetMachineManIp(c)
+     wmmurl := "http://" + winmachineman_ip + "/machines"
+     resp, err := http.Post(wmmurl,"application/json", bytes.NewBuffer([]byte(v)))
+     log.Printf("Response = %s %s\n",resp,err)
 }
 
 func kube_add_node(c *kubernetes.Clientset, node_name string){
@@ -232,6 +238,20 @@ func kube_delete_node(c *kubernetes.Clientset,node_name string){
 }
 
 
+func GetMachineManIp(c *kubernetes.Clientset) string {
+    winmachineman_ip := ""
+    for winmachineman_ip == "" {
+       winmachineman_ip = get_pod_ip(c,"winmachineman")
+       log.Printf("IP = %s\n",winmachineman_ip)
+       if (winmachineman_ip == ""){
+          log.Printf("Waiting on Windows Machine Manager")
+          time.Sleep(10 * time.Second)
+          }
+       }
+    return winmachineman_ip
+}
+
+
 func main() {
     log.SetOutput(os.Stdout)
     log.Printf("Version .001a\n")
@@ -249,15 +269,7 @@ func main() {
     }
     SetupDb()
 
-    winmachineman_ip := ""
-    for winmachineman_ip == "" {
-       log.Printf("Waiting on Windows Machine Manager")
-       winmachineman_ip = get_pod_ip(clientset,"winmachineman")
-       log.Printf("IP = %s\n",winmachineman_ip)
-       if (winmachineman_ip == ""){
-          time.Sleep(10 * time.Second)
-          }
-       }
+    winmachineman_ip := GetMachineManIp(clientset)
     log.Printf("Windows Machine Man found at ip %s\n",winmachineman_ip)
 
     log.Printf("Setting up Informer\n")
