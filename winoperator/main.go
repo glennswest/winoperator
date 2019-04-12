@@ -81,7 +81,7 @@ func SetDbValue(k string,v string){
 func InitDb(){
      SetDbValue("global.dbversion","1.0")
      SetDbValue("global.User","Administrator")
-     SetDbValue("global.Password","SuperLamb931")
+     SetDbValue("global.Password","Secret2018")
      SetDbValue("global.ocpversion","3.11")
 }
 
