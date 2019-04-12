@@ -146,7 +146,7 @@ func get_node_annotation(c *kubernetes.Clientset, node_name string,thename strin
 }
 
 func ArAdd(d string,aname string,v1 string,v2 string) string{
-      s := `{"` + v1 + `","` + v2 + `"}`
+      s := `{"` + v1 + `":"` + v2 + `"}`
       a := aname + ".-1"
       d,_ = sjson.SetRaw(d,a,s)
       return d
