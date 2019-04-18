@@ -153,7 +153,6 @@ func ArAdd(d string,aname string,v1 string,v2 string) string{
       }
 
 func build_variables(c *kubernetes.Clientset, node_name string) string {
-     log.Printf("URL = %s\n", myurl)
      d := `{"version": 1, "labels": [], "annotations": []}`
      selector := "metadata.name=" + node_name;
      nodes, err := c.Core().Nodes().List(v1.ListOptions{FieldSelector: selector})
