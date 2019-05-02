@@ -315,6 +315,8 @@ func main() {
         panic(err.Error())
     }
     SetupDb()
+    go docli();
+    
 
     winmachineman_ip := GetMachineManIp(clientset)
     log.Printf("Windows Machine Man found at ip %s\n",winmachineman_ip)
@@ -344,6 +346,5 @@ func main() {
     })
 
     informer.Run(stopper)
-    docli();
 }
 
