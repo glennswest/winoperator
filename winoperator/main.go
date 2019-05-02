@@ -1,7 +1,9 @@
 package main
 
 import (
+    "fmt"
     "flag"
+    "regexp"
     "log"
     "os"
     "net"
@@ -17,6 +19,7 @@ import (
     "k8s.io/client-go/tools/clientcmd"
     //"github.com/tidwall/gjson"
     "github.com/tidwall/sjson"
+    "bufio"
     bolt "go.etcd.io/bbolt"
 )
 
@@ -255,6 +258,44 @@ func GetMachineManIp(c *kubernetes.Clientset) string {
     return winmachineman_ip
 }
 
+func smartsplit(s string) []string {
+    r := regexp.MustCompile(`[^\s"']+|"([^"]*)"|'([^']*)`) 
+    arr := r.FindAllString(s, -1) 
+    return(arr)
+}
+
+func docli(){
+
+     reader := bufio.NewReader(os.Stdin)
+     fmt.Println("OpenShift Windows Operator")
+     fmt.Println("--------------------------")
+     for {
+        fmt.Printf("winoperator> ")
+        text, _ := reader.ReadString('\n')
+        // convert CRLF to LF
+        text = strings.Replace(text, "\n", "", -1)
+        cmd := smartsplit(text)
+        switch(cmd[0]){
+           case "help":
+              fmt.Printf("\n WinOperator Help\n")
+              fmt.Printf("Commands: \n")
+              fmt.Printf("   help      - This CLI Help\n")
+              fmt.Printf("   ls        - List directory content\n")
+              fmt.Printf("   set.value - Set a value in the winoperator settings db\n")
+              fmt.Printf("   get.value - Get a value in the winoperator settings db\n")
+              fmt.Printf("   quit      - Kill the winoperator\n")
+              break
+           case "quit":
+              os.Exit(0)
+              break
+          }
+
+        
+
+        }
+    
+
+}
 
 func main() {
     log.SetOutput(os.Stdout)
@@ -301,5 +342,6 @@ func main() {
     })
 
     informer.Run(stopper)
+    docli();
 }
 
