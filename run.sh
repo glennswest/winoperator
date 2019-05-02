@@ -16,5 +16,5 @@ oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winop
 oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
 
 export masterhostname=$(hostname)
-oc set env dc/winmachineman MASTERHOST=$masterhostname
+oc set env dc/winoperator MASTERHOST=$masterhostname
 
