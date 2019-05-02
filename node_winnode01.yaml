@@ -2,7 +2,7 @@
                kind: Node
                metadata:
                    annotations:
-                     host/ip: 10.19.114.63
+                     host/ip: 10.19.114.61
                    labels:
                      beta.kubernetes.io/arch: amd64
                      beta.kubernetes.io/os: windows
