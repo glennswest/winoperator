@@ -271,7 +271,6 @@ func docli(){
      fmt.Println("OpenShift Windows Operator")
      fmt.Println("--------------------------")
      for {
-        fmt.Printf("winoperator> ")
         text, _ := reader.ReadString('\n')
         // convert CRLF to LF
         text = strings.Replace(text, "\n", "", -1)
@@ -292,10 +291,8 @@ func docli(){
               os.Exit(0)
               break
           }
+         fmt.Printf("winoperator> ")
          }
-
-        
-
         }
     
 
