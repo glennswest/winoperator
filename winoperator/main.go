@@ -266,6 +266,7 @@ func smartsplit(s string) []string {
 
 func docli(){
 
+     log.Printf("Starting CLI\n")
      reader := bufio.NewReader(os.Stdin)
      fmt.Println("OpenShift Windows Operator")
      fmt.Println("--------------------------")
@@ -277,6 +278,7 @@ func docli(){
         cmd := smartsplit(text)
         switch(cmd[0]){
            case "help":
+              log.Printf("HELP is being used\n")
               fmt.Printf("\n WinOperator Help\n")
               fmt.Printf("Commands: \n")
               fmt.Printf("   help      - This CLI Help\n")
