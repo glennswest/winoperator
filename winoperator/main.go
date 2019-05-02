@@ -276,6 +276,7 @@ func docli(){
         // convert CRLF to LF
         text = strings.Replace(text, "\n", "", -1)
         cmd := smartsplit(text)
+        if (len(cmd) > 0){
         switch(cmd[0]){
            case "help":
               log.Printf("HELP is being used\n")
@@ -291,6 +292,7 @@ func docli(){
               os.Exit(0)
               break
           }
+         }
 
         
 
