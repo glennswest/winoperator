@@ -44,7 +44,7 @@ func GetBucketAndKey(k string) (string, string){
 
 func GetDbValue(p string) string{
      val := ""
-     log.Printf("GetDbValue(%s)\n",p)
+     //log.Printf("GetDbValue(%s)\n",p)
      b,k := GetBucketAndKey(p)
      db, _ := bolt.Open("/data/winoperator", 0600,nil)
      db.View(func(tx *bolt.Tx) error {
@@ -57,12 +57,12 @@ func GetDbValue(p string) string{
         val = string(bucket.Get([]byte(k)))
         return nil
     })
-     log.Printf("External value = %s\n",val)
+     //log.Printf("External value = %s\n",val)
      db.Close()
      return val
 }
 func SetDbValue(k string,v string){
-     log.Printf("SetDbValue(%s,%s)\n",k,v)
+     //log.Printf("SetDbValue(%s,%s)\n",k,v)
      bucket,key := GetBucketAndKey(k)
      db, _ := bolt.Open("/data/winoperator", 0600,nil)
      db.Update(func(tx *bolt.Tx) error {
@@ -71,7 +71,7 @@ func SetDbValue(k string,v string){
               log.Printf("Err in create of bucket\n")
               return err
               }
-           log.Printf("Setting %s to %s\n",key,v)
+           //log.Printf("Setting %s to %s\n",key,v)
            b.Put([]byte(key),[]byte(v))
            return(nil)
            })
@@ -188,7 +188,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     d = ArAdd(d,"settings","password",node_password)
     master_host := GetDbValue("global.master")
     d = ArAdd(d,"settings","master",master_host)
-    log.Printf("d = %s\n", d);
+    //log.Printf("d = %s\n", d);
     return d
 }
 
