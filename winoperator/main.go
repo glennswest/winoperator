@@ -265,16 +265,27 @@ func smartsplit(s string) []string {
 }
 
 func docli(){
-
-     log.Printf("Starting CLI\n")
-     fmt.Println("OpenShift Windows Operator")
-     fmt.Println("--------------------------")
-     reader := bufio.NewReader(os.Stdin)
      for {
-       text, _ := reader.ReadString('\n')
-       if (len(text) > 0){
+         handlecli()
+         }
+}
+
+func handlecli(){
+     scanner := bufio.NewScanner(os.Stdin)
+     for scanner.Scan() {
+          cmdline := scanner.Text();
+          fmt.Println(cmdline)
+          process_cli(cmdline)
+      }
+     return
+}
+
+func process_cli(text string){
+       if (len(text) == 0){
+          return
+          }
         // convert CRLF to LF
-        text = strings.Replace(text, "\n", "", -1)
+        //text = strings.Replace(text, "\n", "", -1)
         cmd := smartsplit(text)
         switch(cmd[0]){
            case "help":
@@ -291,11 +302,6 @@ func docli(){
               os.Exit(0)
               break
           }
-         fmt.Printf("winoperator> ")
-         }
-        }
-    
-
 }
 
 func main() {
