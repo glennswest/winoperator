@@ -271,12 +271,9 @@ func docli(){
      fmt.Println("OpenShift Windows Operator")
      fmt.Println("--------------------------")
      for {
-        text, err := reader.ReadString('\n')
-        if (err != nil){
-           log.Printf("Cannot read string\n")
-           panic(err.Error())
-           }
+        text, _ := reader.ReadString('\n')
         // convert CRLF to LF
+        log.Printf("Len = %d\n",len(text))
         text = strings.Replace(text, "\n", "", -1)
         cmd := smartsplit(text)
         if (len(cmd) > 0){
