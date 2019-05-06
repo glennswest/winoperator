@@ -328,6 +328,7 @@ func process_cli(text string){
                    process_cli("get.value global.ocpversion")
                    process_cli("get.value global.master")
                    process_cli("get.value global.sshkey")
+                   return
                    break
               case 2:
                    thevalue := GetDbValue(cmd[1])
