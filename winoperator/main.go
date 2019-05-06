@@ -335,7 +335,7 @@ func process_cli(text string){
               os.Exit(0)
               break
           }
-    os.Printf("winoperator> ")
+    fmt.Printf("winoperator> ")
 }
 
 func main() {
