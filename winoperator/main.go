@@ -298,6 +298,40 @@ func process_cli(text string){
               fmt.Printf("   get.value - Get a value in the winoperator settings db\n")
               fmt.Printf("   quit      - Kill the winoperator\n")
               break
+           case "set.value":
+              if (len(cmd) < 3){
+                 fmt.Printf("More arguments needed: set.value variable value\n")
+                 return
+                 }
+              SetDbValue(cmd[1],cmd[2])
+              break
+           case "get.value":
+              if (len(cmd) < 2){
+                 fmt.Printf("More arguments needed: get.value variable\n")
+                 return
+                 }
+              thevalue := GetDbValue(cmd[1])
+              fmt.Printf("%s = %s\n",cmd[1],thevalue)
+              break
+           case "set":
+              switch(len(cmd)){
+              case 1:
+                   process_cli("get.value global.User")
+                   process_cli("get.value global.Password")
+                   process_cli("get.value global.ocpversion")
+                   process_cli("get.value global.master")
+                   process_cli("get.value global.sshkey")
+                   break
+              case 2:
+                   scmd := "get.value " + cmd[1]
+                   process_cli(scmd)
+                   break
+              case 3:
+                   scmd := "set.value " + cmd[2] + " " + cmd[3]
+                   process_cli(scmd)
+                   break
+               }
+              break
            case "quit":
               os.Exit(0)
               break
