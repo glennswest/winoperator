@@ -292,8 +292,6 @@ func process_cli(text string){
        if (len(text) == 0){
           return
           }
-        // convert CRLF to LF
-        //text = strings.Replace(text, "\n", "", -1)
         cmd := smartsplit(text)
         switch(cmd[0]){
            case "help":
@@ -332,12 +330,12 @@ func process_cli(text string){
                    process_cli("get.value global.sshkey")
                    break
               case 2:
-                   scmd := "get.value " + cmd[1]
-                   process_cli(scmd)
+                   thevalue := GetDbValue(cmd[1])
+                   fmt.Printf("%s = %s\n",cmd[1],thevalue)
                    break
               case 3:
-                   scmd := "set.value " + cmd[2] + " " + cmd[3]
-                   process_cli(scmd)
+                   value := trimQuotes(cmd[2])
+                   SetDbValue(cmd[1],value)
                    break
                }
               break
