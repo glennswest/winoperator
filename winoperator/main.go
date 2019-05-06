@@ -274,7 +274,6 @@ func handlecli(){
      scanner := bufio.NewScanner(os.Stdin)
      for scanner.Scan() {
           cmdline := scanner.Text();
-          fmt.Println(cmdline)
           process_cli(cmdline)
       }
      return
@@ -336,6 +335,7 @@ func process_cli(text string){
               os.Exit(0)
               break
           }
+    os.Printf("winoperator> ")
 }
 
 func main() {
