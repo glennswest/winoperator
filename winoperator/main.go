@@ -279,6 +279,15 @@ func handlecli(){
      return
 }
 
+func trimQuotes(s string) string {
+    if len(s) >= 2 {
+        if s[0] == '"' && s[len(s)-1] == '"' {
+            return s[1 : len(s)-1]
+        }
+    }
+    return s
+}
+
 func process_cli(text string){
        if (len(text) == 0){
           return
@@ -302,7 +311,8 @@ func process_cli(text string){
                  fmt.Printf("More arguments needed: set.value variable value\n")
                  return
                  }
-              SetDbValue(cmd[1],cmd[2])
+              value := trimQuotes(cmd[2])
+              SetDbValue(cmd[1],value)
               break
            case "get.value":
               if (len(cmd) < 2){
