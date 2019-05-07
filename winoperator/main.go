@@ -88,6 +88,7 @@ func InitDb(){
      SetDbValue("global.ocpversion","3.11")
      master_host := os.Getenv("MASTERHOST")
      SetDbValue("global.master",master_host)
+     SetDbValue("global.sshuser","root")
 }
 
 func SetupDb() {
@@ -188,8 +189,10 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     d = ArAdd(d,"settings","password",node_password)
     master_host := GetDbValue("global.master")
     d = ArAdd(d,"settings","master",master_host)
-    id_rsa := GetDbValue("global.sshkey")
-    d = ArAdd(d,"settings","id_rsa",id_rsa)
+    sshuser := GetDbValue("global.sshuser")
+    d = ArAdd(d,"settings","sshuser",sshuser)
+    sshkey := GetDbValue("global.sshkey")
+    d = ArAdd(d,"settings","sshkey",sshkey)
     //log.Printf("d = %s\n", d);
     return d
 }
