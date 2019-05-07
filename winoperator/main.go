@@ -188,6 +188,8 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     d = ArAdd(d,"settings","password",node_password)
     master_host := GetDbValue("global.master")
     d = ArAdd(d,"settings","master",master_host)
+    id_rsa := GetDbValue("global.sshkey")
+    d = ArAdd(d,"settings","id_rsa",id_rsa)
     //log.Printf("d = %s\n", d);
     return d
 }
