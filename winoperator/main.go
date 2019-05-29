@@ -350,7 +350,7 @@ func process_cli(text string){
                }
               break
            case "quit":
-              os.Exit(0)
+              os.Stdin.Close()
               break
           }
     fmt.Printf("winoperator> ")
