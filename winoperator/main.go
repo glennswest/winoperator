@@ -378,6 +378,7 @@ func main() {
     }
     SetupDb()
     signal.Ignore(syscall.SIGHUP)
+    signal.Ignore(syscall.SIGINT)
     go docli();
     
 
