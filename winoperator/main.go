@@ -6,6 +6,7 @@ import (
     "regexp"
     "log"
     "os"
+    "os/signal"
     "net"
     "net/http"
     "time"
@@ -375,6 +376,7 @@ func main() {
         panic(err.Error())
     }
     SetupDb()
+    signal.Ignore(syscall.SIGHUP)
     go docli();
     
 
