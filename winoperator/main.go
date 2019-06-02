@@ -91,6 +91,8 @@ func InitDb(){
      master_host := os.Getenv("MASTERHOST")
      SetDbValue("global.master",master_host)
      SetDbValue("global.sshuser","root")
+     sshkey := os.Getenv("SSHKEY")
+     SetDbValue("global.sshkey",sshkey)
 }
 
 func SetupDb() {
