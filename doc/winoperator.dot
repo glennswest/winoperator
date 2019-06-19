@@ -1,0 +1,84 @@
+digraph WinOperatorEcosystem {
+
+subgraph cluster0 {
+node [style=filled,color=white];
+style=filled;
+color=lightgrey;
+InstallOperator -> InstallWindowsMachine -> SetupWmiLogin -> SetupCredentials -> CreateKubernetesNodeFile -> OcCreate;
+label = "ManualUserSteps";
+}
+
+subgraph cluster1 {
+node [style=filled,color=white];
+style=filled;
+color=lightgrey;
+NodeObjectInstanced -> NetworkSetup -> NewNodeEvent;
+label = "OpenshiftInternal";
+}
+
+subgraph cluster2 {
+node [style=filled,color=white];
+style=filled;
+color=lightgrey;
+SetupDb -> FindAndWaitForWinMachineMan -> WinOperator_Listner -> NewNodeEventReceived -> IsItAddorDelete; 
+NodeDelete -> IsItWindow -> RestCallToWinMachineMan;
+NodeAdd -> IsItWindows -> YesItsWIndows -> CanWeGetIP -> BuildVariablesFromLabelsAnnotationsAndDb -> RestCallToWinMachineMan;
+IsItWindows -> NotWindows;
+IsItWindow -> NotWindows;
+label = "WinOperator Container";
+}
+
+subgraph cluster3 {
+node [style=filled,color=white];
+style=filled;
+color=lightgrey;
+HttpServTermplates -> HttpServContentOptional -> RestListen -> RestCallReceived -> IsItAddOrDeleteMachine;
+CreateMachine -> GetMyURL -> GetWindowsUserNamePassword -> GetHostIP -> CheckWIndowsVersion -> IsWindowsNodeManInstalled -> YesWmnInstalled -> WmnInstalled;
+DeleteMachine -> RestCallToWindowsNodeManager;
+WmnInstalled -> StopWmnService -> UninstallWinNodeManService -> ContinueWmnSetup;
+WmnNotInstalled -> CreateWmnDir -> SetupWmnFireWallRule -> ContinueWmnSetup
+ContinueWmnSetup -> PullWindowsNodeManagerToWIndowsMachine -> InstallService -> StartService -> GetTemplateBasedOnVersion -> RestCallToWindowsNodeManager;
+label = "WinMachineMan Container";
+}
+
+subgraph cluster4 {
+node [style=filled,color=white];
+style=filled;
+color=lightgrey;
+
+SetupService -> SetupLogging -> RunService -> WnmEnableRestServices -> restart_install;
+WnmEnableRestServices -> ListenForRestCallFromWmm -> WnmRestCallReceived -> WnmWhichRestFunction;
+WnmWhichRestFunction -> WnmInstallNode;
+WnmWhichRestFunction -> WnmUnstallNode;
+WnmWhichRestFunction -> WnmUpdateNode;
+WnmInstallNode -> SetupVariables -> CreateLogsSettingAndContentFolders -> GetTemplateFromWmm -> DownloadIgnitionFiles -> DeployIgnitionFiles -> ProcessIgnitionMetaData -> InstallComplete;
+restart_install -> IsComponentCompleted;
+IsComponentCompleted -> NotComplete -> ProcessIgnitionMetaData;
+IsComponentCompleted -> Completed -> SkipComponent;
+label = "WinNodeMan";
+}
+
+
+start -> InstallOperator
+OcCreate -> NodeObjectInstanced
+NewNodeEvent -> NewNodeEventReceived;
+
+
+
+start [shape=Mdiamond];
+
+IsItAddorDelete -> NodeAdd;
+IsItAddorDelete -> NodeDelete;
+RestCallToWinMachineMan -> RestCallReceived;
+IsItAddOrDeleteMachine -> CreateMachine;
+IsItAddOrDeleteMachine -> DeleteMachine;
+RestCallToWindowsNodeManager -> WnmRestCallReceived;
+InstallComplete -> end;
+NotWindows -> end;
+
+IsWindowsNodeManInstalled -> WmnNotInstalled;
+end [shape=Msquare];
+}
+
+
+
