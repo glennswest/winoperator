@@ -1,4 +1,4 @@
 digraph Overview {
-UserIssuesCreateNode -> WinOperatorNotices -> WinOperatorGathersData -> SendsToWinMachineManager -> WinMachineManVerifies -> WinMachineManSelectsTemplate -> WinMachineManInstallsWinNodeManager -> WinNodeManagerTakesRequest -> WinNodeManagerDownloadsTemplate -> WinNodeManagerDownloadsIgnitionFIles -> WinNodeManagerProcessIgnitionFilesFromComponents -> WinNodeManagerProcessMetaDataFilesFromComponents -> WinNodeManagerExecutesPowershellandLinuxCommandsFromComponents;
+UserIssuesCreateNode -> WinOperatorNotices -> WinOperatorGathersData -> SendsToWinMachineManager -> WinMachineManVerifies -> WinMachineManSelectsTemplate -> WinMachineManInstallsWinNodeManager -> WinNodeManagerTakesRequest -> WinNodeManagerDownloadsTemplate -> WinNodeManagerDownloadsIgnitionFIles -> WinNodeManagerProcessIgnitionFilesFromComponents -> WinNodeManagerProcessMetaDataFilesFromComponents -> WinNodeManagerExecutesPowershellandLinuxCommandsFromComponents -> InstallComplete;
 }
 
