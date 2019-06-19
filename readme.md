@@ -3,6 +3,9 @@
 Listens for the additional of nodes, and if the node is a windows node, it will be auto installed if needed.
 User creates a new kubernets node object, and the rest of the process is fully automated.
 
+## How It Works
+![alt text](https://raw.githubusercontent.com/glennswest/winoperator/master/doc/overview.png)
+
 ## WinOperator Components
 
 ### WinOperator
