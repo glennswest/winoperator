@@ -157,6 +157,14 @@ Sends Restful request to WinMachineManager
 ### WinOperator Techical Flow
 ![alt text](https://raw.githubusercontent.com/glennswest/winoperator/master/doc/winoperator.png)
 
+### Status
+Winoperator/WinMachineMan/WinNodeMan is roughtly 1600 lines of code, and as wuch is code complete for install phase.
+A few more lines are needed for upgrade/uninstall.
+
+Going forward, 99% of enhancements are expected in content, supporting tools, and add-in and features for windows.
+
+Transition to OperatorHub is work-in-progress.
+
 ### WinOperator EcoSystem
 [winoperator](https://github.com/glennswest/winoperator) - This project  
   
