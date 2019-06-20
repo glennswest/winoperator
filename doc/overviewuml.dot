@@ -22,7 +22,7 @@ label = "{WinMachineMan(Container)|Rest Server|Target Verification|Parameter Man
 
 
 WinNodeMan [
-label = "{WinNodeMan(Container)|Rest Server|Add/Delete/Upgrade Node|Content Download|Templates: Defines components needed|Components: Ignition Files|Metadata: Defines  commands needed by component|libIgnition: Ignition Lite Library|libPowershell: Issue Powershell commands}"
+label = "{WinNodeMan(Service)|Rest Server|Add/Delete/Upgrade Node|Content Download|Templates: Defines components needed|Components: Ignition Files|Metadata: Defines  commands needed by component|libIgnition: Ignition Lite Library|libPowershell: Issue Powershell commands}"
 ]
 
 WinOperator -> WinMachineMan [dir=Forward]
