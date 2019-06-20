@@ -32,21 +32,21 @@ Components - Ignition Files
 
 #### Template:
 ...
-{
-  "name":          "win2019",
-  "version":       "0.001",
-  "description":    "Initial Version of Win2019",
-  "install_message": "OpenShift Windows 4.x Windows 2019 ",
-  "packages": ["prewin1809_v1.0",
-               "docker_v1.0.1",
-               "pause_v1.0.1",
-               "nssm_2.24",
-               "node_1.0.2",
-               "cni_0.3.1",
-               "sdn_v1.0.1",
-               "ovn_16e1a3cf",
-               "ovs_2.70beta",
-               "kube_v1.11.3"
+{ 
+  "name":          "win2019", 
+  "version":       "0.001", 
+  "description":    "Initial Version of Win2019", 
+  "install_message": "OpenShift Windows 4.x Windows 2019 ", 
+  "packages": ["prewin1809_v1.0", 
+               "docker_v1.0.1", 
+               "pause_v1.0.1", 
+               "nssm_2.24", 
+               "node_1.0.2", 
+               "cni_0.3.1", 
+               "sdn_v1.0.1", 
+               "ovn_16e1a3cf", 
+               "ovs_2.70beta", 
+               "kube_v1.11.3" 
                ]
 }
 ...
@@ -56,31 +56,31 @@ A component consists of a [Ignition](https://coreos.com/ignition/docs/latest/con
 
 A Component  - Ignition File with a embedded powershell script:
 ...
-{
-  "ignition": {
-    "version": "2.2.0"
-  },
-  "storage": {
-    "files": [
-      {
-        "path": "/bin/metadata/prewin1809_v1.0.metadata",
-        "filesystem": "",
-        "mode": 420,
-        "contents": {
-          "source": "data:text/plain;charset=utf-8;base64,ewog...KfQo="
-        }
-      },
-      {
-        "path": "/bin/prereq1809.ps1",
-        "filesystem": "",
-        "mode": 420,
-        "contents": {
-          "source": "data:text/plain;charset=utf-8;base64,JEVy...Cgo="
-        }
-      }
-    ]
-  }
-}
+{ 
+  "ignition": { 
+    "version": "2.2.0" 
+  }, 
+  "storage": { 
+    "files": [ 
+      { 
+        "path": "/bin/metadata/prewin1809_v1.0.metadata", 
+        "filesystem": "", 
+        "mode": 420, 
+        "contents": { 
+          "source": "data:text/plain;charset=utf-8;base64,ewog...KfQo=" 
+        } 
+      }, 
+      { 
+        "path": "/bin/prereq1809.ps1", 
+        "filesystem": "", 
+        "mode": 420, 
+        "contents": { 
+          "source": "data:text/plain;charset=utf-8;base64,JEVy...Cgo=" 
+        } 
+      } 
+    ] 
+  } 
+} 
 ...
 
 In this example, the component has a embedded powershell script, and a the mandatory metadata file. The metadata file gives us the details of the component, as well as the contents of the powershell script. Data needed for a component can be directl in the content section, base64 encoded in the content section, or remotely via url. 
