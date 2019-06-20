@@ -31,7 +31,7 @@ Templates - A json format file that lists components versions for a version of w
 Components - Ignition Files
 
 #### Template:
-...
+```
 { 
   "name":          "win2019", 
   "version":       "0.001", 
@@ -49,13 +49,13 @@ Components - Ignition Files
                "kube_v1.11.3" 
                ]
 }
-...
+```
  
 ### Component
 A component consists of a [Ignition](https://coreos.com/ignition/docs/latest/configuration-v2_1.html) file. The WinOperator using a subset of the ignition format, which was originally designed for RHCOS for the defenition of components. OCP 4.x uses ignition for the configuration of nodes from boot, and WInOperator extends that to Windows Nodes. As the original ignition specification is highly specific to Linux, and reimplmentation was done for Windows, called [libigniton](https://github.com/glennswest/libignition).  
 
 A Component  - Ignition File with a embedded powershell script:
-...
+```
 { 
   "ignition": { 
     "version": "2.2.0" 
@@ -81,7 +81,7 @@ A Component  - Ignition File with a embedded powershell script:
     ] 
   } 
 } 
-...
+```
 
 In this example, the component has a embedded powershell script, and a the mandatory metadata file. The metadata file gives us the details of the component, as well as the contents of the powershell script. Data needed for a component can be directl in the content section, base64 encoded in the content section, or remotely via url. 
 
