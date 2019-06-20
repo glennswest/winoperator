@@ -157,4 +157,12 @@ Sends Restful request to WinMachineManager
 ### WinOperator Techical Flow
 ![alt text](https://raw.githubusercontent.com/glennswest/winoperator/master/doc/winoperator.png)
 
+### WinOperator EcoSystem
+[winoperator](https://github.com/glennswest/winoperator)
+[winmachineman](https://github.com/glennswest/winmachineman)
+[winnodemanager](https://github.com/glennswest/winnodemanager)
+[winoperatordata](https://github.com/glennswest/winoperatordata)
+[libignition](https://github.com/glennswest/libignition)
+[libpowershell](https://github.com/glennswest/libpowershell)
+
 
