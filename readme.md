@@ -158,11 +158,11 @@ Sends Restful request to WinMachineManager
 ![alt text](https://raw.githubusercontent.com/glennswest/winoperator/master/doc/winoperator.png)
 
 ### WinOperator EcoSystem
-[winoperator](https://github.com/glennswest/winoperator)
-[winmachineman](https://github.com/glennswest/winmachineman)
-[winnodemanager](https://github.com/glennswest/winnodemanager)
-[winoperatordata](https://github.com/glennswest/winoperatordata)
-[libignition](https://github.com/glennswest/libignition)
-[libpowershell](https://github.com/glennswest/libpowershell)
+[winoperator](https://github.com/glennswest/winoperator) - This project
+[winmachineman](https://github.com/glennswest/winmachineman) - Manages template and lifecycle of winnodemanager 
+[winnodemanager](https://github.com/glennswest/winnodemanager) - Manages life cycle of windows machine 
+[winoperatordata](https://github.com/glennswest/winoperatordata) - The components in ignition format plus templates
+[libignition](https://github.com/glennswest/libignition) - Ignition Lite - Used to parse and generation ignition files for Windows
+[libpowershell](https://github.com/glennswest/libpowershell) - Used to communicate to windows
 
 
