@@ -86,7 +86,7 @@ A Component  - Ignition File with a embedded powershell script:
 In this example, the component has a embedded powershell script, and a the mandatory metadata file. The metadata file gives us the details of the component, as well as the contents of the powershell script. Data needed for a component can be directl in the content section, base64 encoded in the content section, or remotely via url. 
 
 A Component metadata file:
-...
+```
 {
   "name":          "prewin1809",
   "version":       "v1.0",
@@ -121,7 +121,7 @@ A Component metadata file:
       }
   "files": []
 }
-...
+```
 In this example you can see the 4 main sections of the metadata. Install is the commands needed for install of a new node, uninstall is for removing all the components added. pre_upgrade is run before a upgrade of the component, and post_upgrade is run after the upgrade of a component. 
 
 #### Adding more content
