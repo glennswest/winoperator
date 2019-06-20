@@ -3,7 +3,7 @@
 Provides a simple fully integrated way to management the addition of Windows Nodes to OpenShift clusters. Using a user-provided Windows machine that has WIndows WMI enabled, it will proceded to upgrade/install and configure the windows node, and join it to cluster. The user provides administrator username and password to the machine, or user configured default value. User creates a simple file, and uses oc create -f newnode.yaml which starts the process. User can watch the install via Node Events in OpenShift.
 
 ## Installation of WinOperator
-Administartor installs 3 containers via simple script or uses OperatorHub.
+Administartor installs 2 containers via simple script or uses OperatorHub.
 
 
 
@@ -26,9 +26,12 @@ The content is expected to change with windows versions as well as openshift cha
 
 ### WinOperatorData
 This is a data container, containing the components for multiple versions of windows. This includes two types of data.
-Templates - A json format file that lists components versions for a version of windows.
 
-A Template:
+Templates - A json format file that lists components versions for a version of windows.
+Components - Ignition Files
+
+#### Template:
+...
 {
   "name":          "win2019",
   "version":       "0.001",
@@ -46,6 +49,83 @@ A Template:
                "kube_v1.11.3"
                ]
 }
+...
+ 
+### Component
+A component consists of a [Ignition](https://coreos.com/ignition/docs/latest/configuration-v2_1.html) file. The WinOperator using a subset of the ignition format, which was originally designed for RHCOS for the defenition of components. OCP 4.x uses ignition for the configuration of nodes from boot, and WInOperator extends that to Windows Nodes. As the original ignition specification is highly specific to Linux, and reimplmentation was done for Windows, called [libigniton](https://github.com/glennswest/libignition).  
+
+A Component  - Ignition File with a embedded powershell script:
+...
+{
+  "ignition": {
+    "version": "2.2.0"
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/bin/metadata/prewin1809_v1.0.metadata",
+        "filesystem": "",
+        "mode": 420,
+        "contents": {
+          "source": "data:text/plain;charset=utf-8;base64,ewog...KfQo="
+        }
+      },
+      {
+        "path": "/bin/prereq1809.ps1",
+        "filesystem": "",
+        "mode": 420,
+        "contents": {
+          "source": "data:text/plain;charset=utf-8;base64,JEVy...Cgo="
+        }
+      }
+    ]
+  }
+}
+...
+
+In this example, the component has a embedded powershell script, and a the mandatory metadata file. The metadata file gives us the details of the component, as well as the contents of the powershell script. Data needed for a component can be directl in the content section, base64 encoded in the content section, or remotely via url. 
+
+A Component metadata file:
+...
+{
+  "name":          "prewin1809",
+  "version":       "v1.0",
+  "description":    "Prequisite Setup for WIndows 1809",
+  "install_message": "",
+  "package_url":     "",
+  "install": {
+      "commands": ["\\bin\\prereq1809.ps1"],
+      "reboot":   "no"
+      }
+  "uninstall": {
+      "priority": 100,
+      "lprecmds": [],
+      "commands": [],
+      "lpstcmds": [],
+      "reboot":   "no"
+      }
+  "pre_upgrade": {
+      "priority": 100,
+      "uninstall": "no",
+      "lprecmds": [],
+      "commands": [],
+      "lpstcmds": [],
+      "reboot":   "no"
+      }
+  "post_upgrade": {
+      "priority": 100,
+      "lprecmds": [],
+      "commands": [],
+      "lpstcmds": [],
+      "reboot":   "no"
+      }
+  "files": []
+}
+...
+In this example you can see the 4 main sections of the metadata. Install is the commands needed for install of a new node, uninstall is for removing all the components added. pre_upgrade is run before a upgrade of the component, and post_upgrade is run after the upgrade of a component. 
+
+#### Adding more content
+To add additional content, create a new json file, with the name,version, and at least the install section. The new component will needed to be added to a template, and that template used by a new node install.
 
 
 
