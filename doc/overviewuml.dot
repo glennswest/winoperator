@@ -1,0 +1,32 @@
+digraph WinOperator {
+fontname = "Bitstream Vera Sans"
+fontsize = 8
+
+node [
+fontname = "Bitstream Vera Sans"
+fontsize = 8
+shape = "record"
+]
+
+edge [
+arrowtail = "empty"
+]
+
+WinOperator [
+label = "{WinOperator(Container)|KubeNodeListener : Wait For Node Changes|Rest Client : Send add/delete to WinMachineMan\l|CLI: Command Line Interface for Private Settings\l+ set vname value|Object Store: Uses bbolt to Store private settings}"
+]
+
+WinMachineMan [
+label = "{WinMachineMan(Container)|Rest Server|Target Verification|Parameter Management|WinNodeMan Life Cycle Management|Content Serving|WinOperatorData(Data Container)\l + prewin1809: Prereq Install and Updates\l + docker: Install And Update\l + pause: setup pause container for kubelet\l + nssm: Windows Service Manager Install\l + node: Get kubelet certs and config from master\l + cni: Network plugin setup\l + sdn: Software Defined network setup\l + ovn: ovn install\l + ovs: OpenVswitch Install\l + kube: Kubelet Install and Setup\l| Embedded WinNodeMan.exe|libPowershell: Communications to Windows Machine}"
+]
+
+
+WinNodeMan [
+label = "{WinNodeMan(Container)|Rest Server|Add/Delete/Upgrade Node|Content Download|Templates: Defines components needed|Components: Ignition Files|Metadata: Defines  commands needed by component|libIgnition: Ignition Lite Library|libPowershell: Issue Powershell commands}"
+]
+
+WinOperator -> WinMachineMan [dir=Forward]
+WinMachineMan -> WinNodeMan [dir=Forward]
+}
+
+
