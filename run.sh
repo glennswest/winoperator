@@ -11,7 +11,7 @@ oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT 
 oc delete  istag/winoperator:latest
 #oc create sa winoperator
 oc set volume dc/winoperator --add --name=dbdata --type=hostPath --path=/etc/winoperator --mount-path=/data
-oc new-app glennswest/winoperator:$GIT_COMMIT --token=$(oc sa get-token winoperator) 
+oc new-app --docker-image=glennswest/winoperator:$GIT_COMMIT --token=$(oc sa get-token winoperator) 
 #oc run winoperator --tty --stdin --image=glennswest/winoperator:$GIT_COMMIT
 oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
 oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
