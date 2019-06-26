@@ -121,13 +121,18 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
           log.Printf("get_pod_ip: Error  %v\n",err)
           return ""
           }
+         if (pods == nil){
+            log.Printf("get_pod_ip: Pods empty\n")
+            return ""
+            }
+         if (len(pods) == 0){
+            log.Printf("get_pod_ip: No Pods\n")
+            return ""
+            }
         for _, pod := range pods.Items {
 	   log.Printf("Pod %s - Ip %s\n",pod.Name, pod.Status.PodIP)
            }
          log.Printf("%v\n",pods)
-         if (len(pods.Items) == 0){
-            return ""
-            }
          pod := pods.Items[0]
          return(pod.Status.PodIP)
 }

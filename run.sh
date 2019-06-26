@@ -5,17 +5,18 @@ oc delete dc winoperator
 oc delete is winoperator
 oc delete sa winoperator
 oc delete project winoperator
-sleep 3
+sleep 15
 oc new-project winoperator
-oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT --confirm
-oc delete  istag/winoperator:latest
+#oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT --confirm
+#oc delete  istag/winoperator:latest
 #oc create sa winoperator
-oc set volume dc/winoperator --add --name=dbdata --type=hostPath --path=/etc/winoperator --mount-path=/data
-oc new-app --docker-image=glennswest/winoperator:$GIT_COMMIT --token=$(oc sa get-token winoperator) 
+kubectl create deployment winoperator --image=docker.io/glennswest/winoperator:8f7de25
+#oc set volume dc/winoperator --add --name=dbdata --type=hostPath --path=/etc/winoperator --mount-path=/data
+#oc new-app --docker-image=glennswest/winoperator:$GIT_COMMIT --token=$(oc sa get-token winoperator) 
 #oc run winoperator --tty --stdin --image=glennswest/winoperator:$GIT_COMMIT
-oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
-oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
-export masterhostname=$(hostname)
+#oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
+#oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
+export masterhostname=control-plane-0
 export sshkey=`cat ~/.ssh/id_rsa | base64`
 oc set env dc/winoperator SSHKEY=$sshkey
 oc set env dc/winoperator MASTERHOST=$masterhostname
