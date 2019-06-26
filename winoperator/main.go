@@ -125,7 +125,7 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
             log.Printf("get_pod_ip: Pods empty\n")
             return ""
             }
-         if (len(pods) == 0){
+         if (len(pods.Items) == 0){
             log.Printf("get_pod_ip: No Pods\n")
             return ""
             }
