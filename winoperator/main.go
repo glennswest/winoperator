@@ -366,11 +366,11 @@ func process_cli(text string){
 }
 
 func main() {
-    f, err := os.OpenFile("/winoperator.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
-    if err != nil {
-       log.Fatalf("error opening file: %v", err)
-       }
-    defer f.Close()
+    //f, err := os.OpenFile("/winoperator.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+    //if err != nil {
+    //   log.Fatalf("error opening file: %v", err)
+    //   }
+    //defer f.Close()
     //log.SetOutput(f)
     log.Printf("Version .001a\n")
     log.Printf("Building config from flags\n")
