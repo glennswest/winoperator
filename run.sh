@@ -18,13 +18,13 @@ kubectl create deployment winoperator --image=docker.io/glennswest/winoperator:8
 #oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
 export masterhostname=control-plane-0
 export sshkey=`cat ~/.ssh/id_rsa | base64`
-oc set env dc/winoperator SSHKEY=$sshkey
-oc set env dc/winoperator MASTERHOST=$masterhostname
-oc patch dc winoperator -p "spec:
-  template:
-    spec:
-      containers:
-      - name: winoperator
-        tty:   true
-        stdin: true"
-
+#oc set env dc/winoperator SSHKEY=$sshkey
+#oc set env dc/winoperator MASTERHOST=$masterhostname
+#oc patch dc winoperator -p "spec:
+#  template:
+#    spec:
+#      containers:
+#      - name: winoperator
+#        tty:   true
+#        stdin: true"
+#
