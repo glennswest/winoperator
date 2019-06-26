@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: winoperator
+spec:
+  containers:
+  - name: winoperator
+    image: docker.io/glennswest/winoperator:8f7de25
+    volumeMounts:
+    - name: winoperatordata
+      mountPath: /data
+  volumes:
+  - name: winoperatordata
+    emptyDir: {}
+

@@ -124,6 +124,9 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
         for _, pod := range pods.Items {
 	   log.Printf("Pod %s - Ip %s\n",pod.Name, pod.Status.PodIP)
            }
+         if (len(pods.Items) == 0){
+            return ""
+            }
          pod := pods.Items[0]
          return(pod.Status.PodIP)
 }
