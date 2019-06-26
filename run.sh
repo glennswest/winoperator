@@ -5,7 +5,7 @@ oc delete dc winoperator
 oc delete is winoperator
 oc delete sa winoperator
 oc delete project winoperator
-sleep 15
+sleep 20
 oc new-project winoperator
 #oc import-image winoperator --from=docker.io/glennswest/winoperator:$GIT_COMMIT --confirm
 #oc delete  istag/winoperator:latest
