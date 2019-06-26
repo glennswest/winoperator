@@ -121,11 +121,11 @@ func get_pod_ip(c *kubernetes.Clientset, podname string) string {
           log.Printf("get_pod_ip: Error  %v\n",err)
           return ""
           }
-         if (pods == nil){
+        if (pods == nil){
             log.Printf("get_pod_ip: Pods empty\n")
             return ""
             }
-         if (len(pods.Items) == 0){
+        if (len(pods.Items) == 0){
             log.Printf("get_pod_ip: No Pods\n")
             return ""
             }
@@ -371,7 +371,7 @@ func main() {
        log.Fatalf("error opening file: %v", err)
        }
     defer f.Close()
-    log.SetOutput(f)
+    //log.SetOutput(f)
     log.Printf("Version .001a\n")
     log.Printf("Building config from flags\n")
     config, err := clientcmd.BuildConfigFromFlags("", "")
@@ -388,7 +388,7 @@ func main() {
     SetupDb()
     signal.Ignore(syscall.SIGHUP)
     signal.Ignore(syscall.SIGINT)
-    go docli();
+    //go docli();
     
 
     winmachineman_ip := GetMachineManIp(clientset)
