@@ -16,12 +16,13 @@ kubectl create deployment winoperator --image=docker.io/glennswest/winoperator:$
 #oc run winoperator --tty --stdin --image=glennswest/winoperator:$GIT_COMMIT
 #oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:winoperator:default
 #oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
+sleep 20
 export masterhostname=control-plane-0
-export sshkey=`cat ~/.ssh/id_rsa | base64`
-export workerign=`cat worker.ign | base64`
-#oc set env dc/winoperator SSHKEY=$sshkey
-#oc set env dc/winoperator MASTERHOST=$masterhostname
-oc set env dc/winoperator WORKERIGN=$workerign
+export sshkey=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
+export workerign=`cat worker.ign | base64 | tr -d '\n'`
+oc set env deployment/winoperator SSHKEY=$sshkey
+oc set env deployment/winoperator MASTERHOST=$masterhostname
+oc set env deployment/winoperator WORKERIGN=$workerign
 #oc patch dc winoperator -p "spec:
 #  template:
 #    spec:
