@@ -93,6 +93,8 @@ func InitDb(){
      SetDbValue("global.sshuser","root")
      sshkey := os.Getenv("SSHKEY")
      SetDbValue("global.sshkey",sshkey)
+     workerign := os.Getenv("WORKERIGN")
+     SetDbValue("global.workerign")
 }
 
 func SetupDb() {
@@ -206,6 +208,8 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     d = ArAdd(d,"settings","sshuser",sshuser)
     sshkey := GetDbValue("global.sshkey")
     d = ArAdd(d,"settings","sshkey",sshkey)
+    workerign := GetDbValue("global.workerign")
+    d = ArAdd(d,"settings","workerign",workerign)
     //log.Printf("d = %s\n", d);
     return d
 }
