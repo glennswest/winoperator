@@ -94,7 +94,7 @@ func InitDb(){
      sshkey := os.Getenv("SSHKEY")
      SetDbValue("global.sshkey",sshkey)
      workerign := os.Getenv("WORKERIGN")
-     SetDbValue("global.workerign")
+     SetDbValue("global.workerign",workerign)
 }
 
 func SetupDb() {
