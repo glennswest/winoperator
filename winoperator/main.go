@@ -248,7 +248,7 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
      //winmachineman_ip := GetMachineManIp(c)
      //wmmurl := "http://" + winmachineman_ip + ":8080/machines"
      wmmurl := GetDbValue("global.machinemanurl") + "/machines"
-     log.Printf("wmurl = %v\n",wmurl)
+     log.Printf("wmmurl = %v\n",wmmurl)
      resp, err := http.Post(wmmurl,"application/json", bytes.NewBuffer([]byte(v)))
      log.Printf("Response = %s %s\n",resp,err)
 }
