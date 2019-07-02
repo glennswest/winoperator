@@ -20,6 +20,8 @@ sleep 20
 export masterhostname=control-plane-0
 export sshkey=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
 export workerign=`cat worker.ign | base64 | tr -d '\n'`
+export defaultdomain=$(oc describe --namespace=openshift-ingress-operator ingresscontroller/default | grep "Domain:" | cut -d ":" -f 2 | cut -d "." -f 1- | tr -d ' ')
+oc set env deployment/winoperator WINMACHINEMAN=winmachineman.$defaultdomain
 oc set env deployment/winoperator SSHKEY=$sshkey
 oc set env deployment/winoperator MASTERHOST=$masterhostname
 oc set env deployment/winoperator WORKERIGN=$workerign
@@ -31,3 +33,4 @@ oc set env deployment/winoperator WORKERIGN=$workerign
 #        tty:   true
 #        stdin: true"
 #
+

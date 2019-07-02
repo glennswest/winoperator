@@ -95,6 +95,8 @@ func InitDb(){
      SetDbValue("global.sshkey",sshkey)
      workerign := os.Getenv("WORKERIGN")
      SetDbValue("global.workerign",workerign)
+     machinemanurl := os.Getenv("WINMACHINEMAN")
+     SetDbValue("global.machinemanurl",machinemanurl)
 }
 
 func SetupDb() {
@@ -243,8 +245,10 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
      log.Printf("Host IP: %s\n",theip);
      v := build_variables(c,node_name)
      log.Printf("Variables =%s\n",v)
-     winmachineman_ip := GetMachineManIp(c)
-     wmmurl := "http://" + winmachineman_ip + ":8080/machines"
+     //winmachineman_ip := GetMachineManIp(c)
+     //wmmurl := "http://" + winmachineman_ip + ":8080/machines"
+     wmurl := GetDbValue("global.machinemanurl") + /machines"
+     log.Printf("wmurl = %v\n",wmurl)
      resp, err := http.Post(wmmurl,"application/json", bytes.NewBuffer([]byte(v)))
      log.Printf("Response = %s %s\n",resp,err)
 }
