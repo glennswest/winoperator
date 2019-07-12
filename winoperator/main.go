@@ -216,7 +216,7 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     workerign := GetDbValue("global.workerign")
     d = ArAdd(d,"settings","workerign",workerign)
     kubeconfigdata := GetDbValue("global.kubeconfigdata")
-    d = ArAdd(d,"settings","kubeconfigdata")
+    d = ArAdd(d,"settings","kubeconfigdata",kubeconfigdata)
     //log.Printf("d = %s\n", d);
     return d
 }
