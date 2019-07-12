@@ -97,6 +97,9 @@ func InitDb(){
      SetDbValue("global.workerign",workerign)
      machinemanurl := os.Getenv("WINMACHINEMAN")
      SetDbValue("global.machinemanurl",machinemanurl)
+     kubeconfigdata := os.Getenv("KUBECONFIGDATA")
+     SetDbValue("global.kubeconfigdata",kubeconfigdata)
+
 }
 
 func SetupDb() {
@@ -212,6 +215,8 @@ func build_variables(c *kubernetes.Clientset, node_name string) string {
     d = ArAdd(d,"settings","sshkey",sshkey)
     workerign := GetDbValue("global.workerign")
     d = ArAdd(d,"settings","workerign",workerign)
+    kubeconfigdata := GetDbValue("global.kubeconfigdata")
+    d = ArAdd(d,"settings","kubeconfigdata")
     //log.Printf("d = %s\n", d);
     return d
 }
