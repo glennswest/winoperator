@@ -21,7 +21,7 @@ export masterhostname=control-plane-0
 #export sshkey=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
 export workerign=`cat worker.ign | base64 | tr -d '\n'`
 export defaultdomain=$(oc describe --namespace=openshift-ingress-operator ingresscontroller/default | grep "Domain:" | cut -d ":" -f 2 | cut -d "." -f 1- | tr -d ' ')
-export kubeconfigdata=`cat ~/.kube/kubeconfig | base64 | tr -d '\n'`
+export kubeconfigdata=`cat ~/.kube/config | base64 | tr -d '\n'`
 oc set env deployment/winoperator WINMACHINEMAN=http://winmachineman.$defaultdomain SSHKEY=$sshkey MASTERHOST=$masterhostname WORKERIGN=$workerign KUBECONFIGDATA=$kubeconfigdata
 #oc patch dc winoperator -p "spec:
 #  template:
