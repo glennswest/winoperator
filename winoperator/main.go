@@ -248,6 +248,10 @@ func check_windows_node(c *kubernetes.Clientset, node_name string){
         log.Printf("ip = %s\n",theip);
         }
      log.Printf("Host IP: %s\n",theip);
+ 
+     log.Printf("Wait for 10 seconds to give OVN time to fixup node object\n")
+     time.Sleep(10 * time.Second)
+     
      v := build_variables(c,node_name)
      log.Printf("Variables =%s\n",v)
      //winmachineman_ip := GetMachineManIp(c)
@@ -265,7 +269,7 @@ func kube_add_node(c *kubernetes.Clientset, node_name string){
          case "linux":
          // Ignore Linux Nodes for now
          case "windows":
-               check_windows_node(c,node_name);
+               go check_windows_node(c,node_name);
          default:
                log.Printf("Undefined OS: %s (Ignored)\n",theos)
          }
