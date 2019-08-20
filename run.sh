@@ -17,7 +17,7 @@ kubectl create deployment winoperator --image=docker.io/glennswest/winoperator:$
 #oc run winoperator --tty --stdin --image=glennswest/winoperator:$GIT_COMMIT
 #oc policy add-role-to-user admin  system:serviceaccount:winoperator:default
 sleep 20
-export masterhostname=`cat ~/worker.ign | jq '.ignition.config.append[0].source' | awk -F/ '{print $3}' | awk -F: '{print $1}'`
+export masterhostname=`oc get nodes | grep master | head -n 1 | awk '{print $1}'`
 #export sshkey=`cat ~/.ssh/id_rsa | base64 | tr -d '\n'`
 export workerign=`cat ~/worker.ign | base64 | tr -d '\n'`
 export defaultdomain=$(oc describe --namespace=openshift-ingress-operator ingresscontroller/default | grep "Domain:" | cut -d ":" -f 2 | cut -d "." -f 1- | tr -d ' ')
