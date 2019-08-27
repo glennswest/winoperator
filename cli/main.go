@@ -3,6 +3,7 @@ package main
 
 import (
     "fmt"
+    "flag"
     "log"
     "bufio"
     "os"
@@ -16,6 +17,10 @@ func trimQuotes(s string) string {
         }
     }
     return s
+}
+
+func init() {
+  flag.Parse();
 }
 
 func docli(){
