@@ -1,22 +1,11 @@
 package db
 
 import (
-    "fmt"
-    "flag"
     "regexp"
     "log"
     "os"
-    "os/signal"
-    "syscall"
-    "net"
-    "net/http"
-    "time"
     "strings"
-    "bytes"
     "errors"
-    //"github.com/tidwall/gjson"
-    "github.com/tidwall/sjson"
-    "bufio"
     bolt "go.etcd.io/bbolt"
 )
 
@@ -110,29 +99,9 @@ func SetupDb() {
 
 
 
-func init() {
-  flag.Parse();
-}
-
 
 func Smartsplit(s string) []string {
     r := regexp.MustCompile(`[^\s"']+|"([^"]*)"|'([^']*)`) 
     arr := r.FindAllString(s, -1) 
     return(arr)
 }
-
-func docli(){
-     for {
-         handlecli()
-         }
-}
-
-func handlecli(){
-     scanner := bufio.NewScanner(os.Stdin)
-     for scanner.Scan() {
-          cmdline := scanner.Text();
-          process_cli(cmdline)
-      }
-     return
-}
-

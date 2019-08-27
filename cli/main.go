@@ -6,7 +6,7 @@ import (
     "log"
     "bufio"
     "os"
-    "github.com/glennswest/winoperator/db/db"
+    "github.com/glennswest/winoperator/db"
 )
 
 func trimQuotes(s string) string {
@@ -37,7 +37,7 @@ func process_cli(text string){
        if (len(text) == 0){
           return
           }
-        cmd := Smartsplit(text)
+        cmd := db.Smartsplit(text)
         switch(cmd[0]){
            case "help":
               log.Printf("HELP is being used\n")
@@ -55,14 +55,14 @@ func process_cli(text string){
                  return
                  }
               value := trimQuotes(cmd[2])
-              SetDbValue(cmd[1],value)
+              db.SetDbValue(cmd[1],value)
               break
            case "get.value":
               if (len(cmd) < 2){
                  fmt.Printf("More arguments needed: get.value variable\n")
                  return
                  }
-              thevalue := GetDbValue(cmd[1])
+              thevalue := db.GetDbValue(cmd[1])
               fmt.Printf("%s = %s\n",cmd[1],thevalue)
               break
            case "set":
@@ -76,12 +76,12 @@ func process_cli(text string){
                    return
                    break
               case 2:
-                   thevalue := GetDbValue(cmd[1])
+                   thevalue := db.GetDbValue(cmd[1])
                    fmt.Printf("%s = %s\n",cmd[1],thevalue)
                    break
               case 3:
                    value := trimQuotes(cmd[2])
-                   SetDbValue(cmd[1],value)
+                   db.SetDbValue(cmd[1],value)
                    break
                }
               break
