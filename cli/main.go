@@ -98,6 +98,9 @@ func process_cli(text string){
 }
 
 func main() {
+    
+    cPtr := flag.String("c", "", "set values")
+    fmt.Println("coption:", *cPtr)
     docli();
 }
 
