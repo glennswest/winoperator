@@ -19,13 +19,8 @@ func trimQuotes(s string) string {
     return s
 }
 
-string *Cptr;
 
 func init() {
-   Cptr := flag.String("c", "", "set values")
-
-  flag.Parse();
-  fmt.Println("coption:", *Cptr)
 }
 
 func docli(){
@@ -104,6 +99,10 @@ func process_cli(text string){
 
 func main() {
     
+    Cptr := flag.String("c", "", "set values")
+
+    flag.Parse();
+    fmt.Println("coption:", *Cptr)
     docli();
 }
 
